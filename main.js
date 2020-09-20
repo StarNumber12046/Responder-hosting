@@ -163,7 +163,7 @@ client.on('message', msg => {
   if(msg.content === 'r-info') {
     const embed = new Discord.MessageEmbed()
     // Set the title of the field
-    .setTitle('Invito')
+    .setTitle('Info')
     .setAuthor('Command Responder', 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcR_gfzqxgenIFs-ewjRZ9MOP0n91R_E6taIhQ&usqp=CAU')
     // Set the color of the embed
     .setColor('#FF8700')
