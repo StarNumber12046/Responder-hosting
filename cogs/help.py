@@ -23,7 +23,9 @@ class Help(commands.Cog):
 
     @help.command()
     async def misc(self, ctx):
-        embed = discord.Embed(title='In arrivo...', description=None, color=discord.Color.blurple())
+        embed = discord.Embed(title='Misc', description='[] = obbligatorio | <> = non obbligatorio', color=discord.Color.blurple())
+        embed.add_field(name='userinfo', value='r-userinfo  <utente> (Se non si inserisce un utente il bot restituirà le info dell\'autore del comando)',
+                        inline=False)
         await ctx.send(embed=embed)
 
 
