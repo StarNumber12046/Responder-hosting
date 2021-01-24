@@ -2,7 +2,7 @@ import discord
 import os
 from discord.ext import commands
 
-bot = commands.Bot(command_prefix='r-' or 'r.')
+bot = commands.Bot(command_prefix='r-' or 'r.', intents=discord.Intents.all())
 print(discord)
 bot.remove_command('help')
 
