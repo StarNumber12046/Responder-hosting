@@ -19,7 +19,7 @@ mobile: {user.is_on_mobile()}```""", color=user.color)
         else:
             embed = discord.Embed(title=f'{user} info', description=f"""```nickname: {user.nick}
 id: {user.id}
-mobile: {user.is_on_mobile()}````""", color=user.color)
+mobile: {user.is_on_mobile()}```""", color=user.color)
             embed.set_thumbnail(url=user.avatar_url)
             await ctx.send(embed=embed)
 
