@@ -11,15 +11,17 @@ class Misc(commands.Cog):
         if user is None:
             user = ctx.author
         if user.nick is None:
-            embed = discord.Embed(title=f'{user} info', description=f"""```nickname: {str(user)}
-id: {user.id}
-mobile: {user.is_on_mobile()}```""", color=user.color)
+            embed = discord.Embed(title=f'{user} info', description=f"""```md
+<nickname>: {str(user)}
+<id>: {user.id}
+<mobile>: {user.is_on_mobile()}```""", color=user.color)
             embed.set_thumbnail(url=user.avatar_url)
             await ctx.send(embed=embed)
         else:
-            embed = discord.Embed(title=f'{user} info', description=f"""```nickname: {user.nick}
-id: {user.id}
-mobile: {user.is_on_mobile()}```""", color=user.color)
+            embed = discord.Embed(title=f'{user} info', description=f"""```md
+<nickname>: {user.nick}
+<id>: {user.id}
+<mobile>: {user.is_on_mobile()}```""", color=user.color)
             embed.set_thumbnail(url=user.avatar_url)
             await ctx.send(embed=embed)
 
