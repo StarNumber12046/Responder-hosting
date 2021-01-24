@@ -27,8 +27,8 @@ class Misc(commands.Cog):
     @commands.command()
     async def serverinfo(self, ctx):
         embed=discord.Embed(title=f'{ctx.guild.name} info', description=f"""Nome: {ctx.guild.name}
-Numero utenti: {len(ctx.guild.users)}
-Numero canali: {len(ctx.guild.channels)}""", color=discord.Color.blurple())
+Numero utenti: {len(ctx.guild.members)}
+Numero canali: {len(ctx.guild.text_channels) + len(ctx.guild.voice_channels)}""", color=discord.Color.blurple())
 
 
 
