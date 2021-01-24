@@ -24,6 +24,11 @@ class Misc(commands.Cog):
 <mobile>: {user.is_on_mobile()}```""", color=user.color)
             embed.set_thumbnail(url=user.avatar_url)
             await ctx.send(embed=embed)
+    @commands.command()
+    async def serverinfo(self, ctx):
+        embed=discord.Embed(title=f'{ctx.guild.name} info', description=f"""Nome: {ctx.guild.name}
+Numero utenti: {len(ctx.guild.users)}
+Numero canali: {len(ctx.guild.channels)}""", color=discord.Color.blurple())
 
 
 
