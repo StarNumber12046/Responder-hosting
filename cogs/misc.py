@@ -29,6 +29,7 @@ class Misc(commands.Cog):
         embed=discord.Embed(title=f'{ctx.guild.name} info', description=f"""Nome: {ctx.guild.name}
 Numero utenti: {len(ctx.guild.members)}
 Numero canali: {len(ctx.guild.text_channels) + len(ctx.guild.voice_channels)}""", color=discord.Color.blurple())
+        await ctx.send(embed=embed)
 
 
 
