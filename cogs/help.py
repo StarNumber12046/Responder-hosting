@@ -28,7 +28,7 @@ class Help(commands.Cog):
         embed.add_field(name='userinfo', value='r-userinfo  <utente> (Se non si inserisce un utente il bot restituirà le info dell\'autore del comando)',
                         inline=False)
         embed.add_field(name='serverinfo',
-                        value='r-userinfo',
+                        value='r-serverinfo',
                         inline=False)
         embed.add_field(name='say', value='r-say [messaggio]', inline=False)
         await ctx.send(embed=embed)
