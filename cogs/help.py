@@ -28,6 +28,7 @@ class Help(commands.Cog):
         embed=discord.Embed(title='Info sul bot', description='[] = obbligatorio, <> = non obbligatorio')
         embed.add_field(name='Invite', value='r-invite | invitami')
         embed.add_field(name='Support', value='r-support | server di supporto')
+        await ctx.send(embed=embed)
 
     @help.command()
     async def misc(self, ctx):
