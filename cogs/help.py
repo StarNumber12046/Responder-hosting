@@ -11,6 +11,7 @@ class Help(commands.Cog):
         embed = discord.Embed(title='Aiuto', description=None, color=discord.Color.blurple())
         embed.add_field(name='Moderazione', value='r-help moderator | Modera il tuo server', inline=False)
         embed.add_field(name='Misc', value='r-help misc | Comandi inutili ma divertenti', inline=False)
+        embed.set_footer(text='C\'è un comando segreto che devi assolutamente trovare! E se lo trovi dillo al mio owner StarNumber12046#9008')
         await ctx.send(embed=embed)
 
     @help.command()
