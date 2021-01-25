@@ -26,6 +26,10 @@ class Help(commands.Cog):
         embed = discord.Embed(title='Misc', description='[] = obbligatorio | <> = non obbligatorio', color=discord.Color.blurple())
         embed.add_field(name='userinfo', value='r-userinfo  <utente> (Se non si inserisce un utente il bot restituirà le info dell\'autore del comando)',
                         inline=False)
+        embed.add_field(name='serverinfp',
+                        value='r-userinfo',
+                        inline=False)
+        embed.add_field(name='say', value='r-say [messaggio]', inline=False)
         await ctx.send(embed=embed)
 
 
