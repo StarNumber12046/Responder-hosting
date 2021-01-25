@@ -12,7 +12,8 @@ class Help(commands.Cog):
         embed.add_field(name='Moderazione', value='r-help moderator | Modera il tuo server', inline=False)
         embed.add_field(name='Misc', value='r-help misc | Comandi inutili ma divertenti', inline=False)
         embed.add_field(name='Info', value='r-help info | Info sul bot', inline=False)
-        embed.set_footer(text='C\'è un comando segreto che devi assolutamente trovare! E se lo trovi dillo al mio owner StarNumber12046#9008')
+        embed.set_footer(text='C\'è un comando segreto che devi assolutamente trovare! E se lo trovi dillo al mio '
+                              'owner StarNumber12046#9008')
         await ctx.send(embed=embed)
 
     @help.command()
@@ -25,9 +26,9 @@ class Help(commands.Cog):
 
     @help.command()
     async def info(self, ctx):
-        embed=discord.Embed(title='Info sul bot', description='[] = obbligatorio, <> = non obbligatorio')
-        embed.add_field(name='Invite', value='r-invite | invitami')
-        embed.add_field(name='Support', value='r-support | server di supporto')
+        embed=discord.Embed(title='Info sul bot', description='[] = obbligatorio, <> = non obbligatorio', color=discord.Color.blurple())
+        embed.add_field(name='Invite', value='r-invite | invitami', inline=False)
+        embed.add_field(name='Support', value='r-support | server di supporto', inline=False)
         await ctx.send(embed=embed)
 
     @help.command()
