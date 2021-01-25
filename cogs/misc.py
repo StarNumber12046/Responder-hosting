@@ -31,7 +31,7 @@ Numero utenti: {len(ctx.guild.members)}
 Numero canali: {len(ctx.guild.text_channels) + len(ctx.guild.voice_channels)}""", color=discord.Color.blurple())
         await ctx.send(embed=embed)
     @commands.command()
-    async def say(self, ctx, *, args='Non so che dire... nessumo ha scritto niente!'):
+    async def say(self, ctx, *, args='Non so che dire... nessuno ha scritto niente! <:DBIlel:623618410315513876>'):
         await ctx.send(args, allowed_mentions=discord.AllowedMentions(everyone=False, users=True, roles=False))
 
 
