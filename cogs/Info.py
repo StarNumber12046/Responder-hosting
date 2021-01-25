@@ -13,3 +13,5 @@ class Info(commands.Cog):
     async def support(self, ctx):
         await ctx.send(embed=discord.Embed(title='Server di supporto', description=None,
                                            url='https://discord.gg/EzT4zT4'))
+def setup(bot):
+    bot.add_cog(Info(bot))
