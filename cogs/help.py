@@ -21,6 +21,7 @@ class Help(commands.Cog):
         embed = discord.Embed(title='Moderazione', description='<> = non obbligatorio | [] = obbligatorio', color=discord.Color.blurple())
         embed.add_field(name='ban', value='r-ban [user] <reason> (Autorizzazione richiesta: bannare membri)', inline=False)
         embed.add_field(name='kick', value='r-kick [user] <reason> (Autorizzazione richiesta: espellere membri)', inline=False)
+        embed.add_field(name='unban', value='r-unban [user] (Autorizzazione richiesta: bannare membri)', inline=False)
 
         await ctx.send(embed=embed)
 
@@ -31,6 +32,8 @@ class Help(commands.Cog):
         embed.add_field(name='Support', value='r-support | server di supporto', inline=False)
         await ctx.send(embed=embed)
 
+
+
     @help.command()
     async def misc(self, ctx):
         embed = discord.Embed(title='Misc', description='[] = obbligatorio | <> = non obbligatorio', color=discord.Color.blurple())
@@ -40,6 +43,7 @@ class Help(commands.Cog):
                         value='r-serverinfo',
                         inline=False)
         embed.add_field(name='say', value='r-say [messaggio]', inline=False)
+        embed.add_field(name='comment', value='r-comment [commento youtube] -- <id utente>')
         await ctx.send(embed=embed)
 
 

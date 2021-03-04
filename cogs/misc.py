@@ -33,6 +33,7 @@ Numero canali: {len(ctx.guild.text_channels) + len(ctx.guild.voice_channels)}"""
     @commands.command()
     async def say(self, ctx, *, args='Non so che dire... nessuno ha scritto niente! <:DBIlel:623618410315513876>'):
         await ctx.send(args, allowed_mentions=discord.AllowedMentions(everyone=False, users=True, roles=False))
+
     @commands.command()
     async def triggered(self, ctx):
         await ctx.send('You triggered meeeeeeeee!')

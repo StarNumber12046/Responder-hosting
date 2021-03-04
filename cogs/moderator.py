@@ -7,6 +7,7 @@ class Moderator(commands.Cog):
         self.bot = bot
 
     @commands.command()
+    @commands.has_permissions(kick_members=True)
     @commands.bot_has_permissions(kick_members=True)
     async def kick(self, ctx, user: discord.Member, *, reason='motivo non precisato'):
         embed = discord.Embed(title='Utente espulso',
@@ -14,14 +15,13 @@ class Moderator(commands.Cog):
         await ctx.send(embed=embed)
         await user.kick(reason=reason)
 
-    @kick.error
-    async def kick_error(self, ctx, error):
-        if isinstance(error, MissingPermissions):
-            await ctx.send(':nope: Non hai il permesso!')
+
 
 
     @commands.command()
     @commands.bot_has_permissions(ban_members=True)
+    @commands.has_permissions(ban_members=True)
+
     async def ban(self, ctx, user: discord.Member, *, reason='motivo non precisato'):
         embed = discord.Embed(title='Utente bannato',
                               description=f'Ho bannato l\'utente {user} per il seguente motivo: {reason}',
@@ -29,14 +29,12 @@ class Moderator(commands.Cog):
         await ctx.send(embed=embed)
         await user.ban(reason=reason)
 
-    @ban.error
-    async def ban_error(self, ctx, error):
-        if isinstance(error, MissingPermissions):
-            await ctx.send(":nope: Non hai il permesso!")
+
 
 
 
     @commands.command()
+    @commands.has_permissions(ban_members=True)
     @commands.bot_has_permissions(ban_members=True)
     async def unban(self, ctx, user: int):
         u = self.bot.get_user(user)
