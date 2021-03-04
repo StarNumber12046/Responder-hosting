@@ -2,8 +2,9 @@ import discord
 import os
 from discord.ext import commands
 import jishaku
+import prefix
 
-bot = commands.Bot(command_prefix='r-' or 'r.', intents=discord.Intents.all())
+bot = commands.Bot(command_prefix=prefix.get_prefix, intents=discord.Intents.all())
 print(discord)
 bot.remove_command('help')
 bot.load_extension('jishaku')

@@ -14,7 +14,7 @@ import subprocess
 from typing import Union
 import utils
 
-colour = 0xbf794b
+
 
 class Utility(commands.Cog):
     def __init__(self, bot):
@@ -36,7 +36,7 @@ class Utility(commands.Cog):
 
         json.dump(l, f, indent = 4)
 
-      await ctx.send(f"Prefix for **{ctx.guild.name}** set to `{prefix}`.")
+      await ctx.send(f"Il prefisso per **{ctx.guild.name}** è ora `{prefix}`.")
 
     @prefix.command()
     async def reset(self, ctx):
@@ -55,11 +55,11 @@ class Utility(commands.Cog):
 
           json.dump(l, f)
 
-        await ctx.send(f"Prefix reset to `r-`.")
+        await ctx.send(f"Prefisso resettato a `r-`.")
 
       except KeyError:
 
-        await ctx.send("Prefix is already the default one (`r-`).")
+        await ctx.send("Il prefisso è quello di default (`r-`).")
 
 
 
