@@ -88,7 +88,7 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
                         except:
                             emb.description += f"<:dboatsDnd:736511781874303006> {cog[:-3]}\n"
                         else:
-                            emb.description += f"<a:check:726040431539912744> {cog[:-3]}\n"
+                            emb.description += f"<:unmute:736511664614277200> {cog[:-3]}\n"
 
                 return await msg.edit(content=None, embed=emb)
 
