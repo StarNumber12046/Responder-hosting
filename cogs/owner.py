@@ -1,289 +1,300 @@
-from discord.ext import commands
-import discord
-import asyncio
-import aiohttp
 from contextlib import redirect_stdout
-import traceback
-import textwrap
+from typing import Union
+
+import aiosqlite
+import asyncio
+import discord
 import io
 import os
-import json
-import inspect
+import subprocess
+import textwrap
+import traceback
+from discord.ext import commands
+
+from utils import Git
+
+colour = 0xbf794b
 
 
-prefix = 'm!!'
-
-
-def cleanup_code(content):
-    """Automatically removes code blocks from the code."""
-    # remove ```py\n```
-    if content.startswith('```') and content.endswith('```'):
-        return '\n'.join(content.split('\n')[1:-1])
-
-    # remove `foo`
-    return content.strip('` \n')
-
-
-async def mystbin(data):
-    data = bytes(str(data), 'utf-8')
-    async with aiohttp.ClientSession() as cs:
-        async with cs.post('https://mystb.in/documents', data=data) as r:
-            res = await r.json()
-            return f'https://mystb.in/{res["key"]}.python'
-
-
-class owner(commands.Cog):
+class Owner(commands.Cog, command_attrs=dict(hidden=True)):
 
     def __init__(self, bot):
         self.bot = bot
         self._last_result = None
+        self.git = Git()
 
-    @commands.command(aliases=['eval_'], description='SUDO', pass_context=True, hidden=True)
-    @commands.is_owner()
-    async def eval(self, ctx, *, body: str = None):
-        if body:
-            if ctx.author.id == 647092382503796740:
-                env = {
+    def cleanup_code(self, content):
+        """Automatically removes code blocks from the code."""
+        # remove ```py\n```
+        if content.startswith('```') and content.endswith('```'):
+            return '\n'.join(content.split('\n')[1:-1])
 
-                    'bot': self.bot,
-                    'self': self,
-                    'ctx': ctx,
-                    'channel': ctx.channel,
-                    'author': ctx.author,
-                    'guild': ctx.guild,
-                    'message': ctx.message,
-                    '_': self._last_result
-                }
+        # remove `foo`
+        return content.strip('` \n')
 
-                env.update(globals())
+    @commands.command()
+    async def emoji(self, ctx, emoji: discord.Emoji = None):
 
-                body = cleanup_code(body)
-                stdout = io.StringIO()
+        if emoji.animated:
 
-                to_compile = f'async def func():\n{textwrap.indent(body, "  ")}'
+            await ctx.send(f'`<a:{emoji.name}:{emoji.id}>` - {emoji} - {emoji.id} - {emoji.url}')
 
-                try:
-                    exec(to_compile, env)
-                except Exception as e:
-                    return await ctx.send(f'```py\n{e.__class__.__name__}: {e}\n```')
-
-                func = env['func']
-                try:
-                    with redirect_stdout(stdout):
-                        ret = await func()
-                except Exception as e:
-                    value = stdout.getvalue()
-                    await ctx.send(f'```py\n{value}{traceback.format_exc()}\n```')
-                else:
-                    value = stdout.getvalue()
-                    try:
-                        await ctx.message.add_reaction('\u2705')
-                    except:
-                        pass
-
-                    if ret is None:
-                        if value:
-                            await ctx.send(f'```py\n{value}\n```')
-                    else:
-                        self._last_result = ret
-                        await ctx.send(f'```py\n{value}{ret}\n```')
         else:
-            await ctx.send('What do I test?')
 
-    @commands.command(description='Load extension', hidden=True)
-    @commands.is_owner()
-    async def load(self, ctx,  *, extension):
-        for extension in extension.split(' '):
-            try:
-                self.bot.load_extension(f'cogs.{extension}')
-
-                await ctx.message.add_reaction("✅")
-            except Exception as e:
-                await ctx.message.add_reaction("❌")
-                await ctx.send(str(e))
-
-    @commands.command(description='Unload extension', hidden=True)
-    @commands.is_owner()
-    async def unload(self, ctx, *, extension):
-        for extension in extension.split(' '):
-            try:
-                self.bot.unload_extension(f'cogs.{extension}')
-
-                await ctx.message.add_reaction("✅")
-            except Exception as e:
-                await ctx.message.add_reaction("❌")
-                await self.bot.get_channel(714813858530721862).send(str(e))
+            await ctx.send(f'`<:{emoji.name}:{emoji.id}>` - {emoji} - {emoji.id} - {emoji.url}')
 
     @commands.command()
     @commands.is_owner()
-    async def sync(self, ctx):
+    async def load(self, ctx, extension):
+        emb = discord.Embed(title='Loading...', colour=0xbf794b)
+        emb1 = discord.Embed(title=f'Loaded {extension}!', colour=0xbf794b)
+        msg = await ctx.send(embed=emb)
+        await asyncio.sleep(0.5)
+
         try:
 
-            os.system('git pull https://starnumber12046:sCVt8PSP3^1UD3wG@github.com/starnumber12046/Responder-hosting.git')
-            await ctx.send('Done!')
+            self.bot.load_extension(f'cogs.{extension}')
+
+            await msg.edit(embed=emb1)
 
         except Exception as e:
-            await ctx.send('Error!\n' + e)
 
-    @commands.command(description='Reload extension', hidden=True)
+            traceback.print_exc()
+
+            error = discord.Embed(title=f"""UH! There was an error with {extension}!""", description=str(e),
+                                  colour=0xbf794b)
+            await msg.edit(embed=error)
+
+    @commands.command()
     @commands.is_owner()
-    async def cogreload(self, ctx, *, extension):
-        for extension in extension.split(' '):
+    async def reload(self, ctx, *, extension=None):
+        "reload a cog"
+
+        async with ctx.typing():
+            await self.git.pull(self.bot.loop)
+
+            if not extension:
+                emb = discord.Embed(description=f"<a:loading:747680523459231834> | Reloading all extensions",
+                                    colour=self.bot.colour)
+                msg = await ctx.send(embed=emb)
+                emb.description = ""
+
+                for cog in os.listdir("./cogs"):
+                    if cog.endswith(".py"):
+                        try:
+                            self.bot.unload_extension(f"cogs.{cog[:-3]}")
+                            self.bot.load_extension(f"cogs.{cog[:-3]}")
+                        except:
+                            emb.description += f"<a:fail:727212831782731796> {cog[:-3]}\n"
+                        else:
+                            emb.description += f"<a:check:726040431539912744> {cog[:-3]}\n"
+
+                return await msg.edit(content=None, embed=emb)
+
+            emb = discord.Embed(description=f"<a:loading:747680523459231834> | Reloading {extension}",
+                                colour=self.bot.colour)
+            msg = await ctx.send(embed=emb)
+
             try:
-                os.system(
-                    'git pull https://starnumber12046:sCVt8PSP3^1UD3wG@github.com/starnumber12046/Responder-hosting.git')
-                self.bot.unload_extension(f'cogs.{extension}')
-                self.bot.load_extension(f'cogs.{extension}')
-
-                await ctx.message.add_reaction("✅")
+                self.bot.unload_extension(f"cogs.{extension}")
+                self.bot.load_extension(f"cogs.{extension}")
             except Exception as e:
-                await ctx.message.add_reaction("❌")
-                await ctx.send(e)
+                emb.description = f"<a:fail:727212831782731796> | {extension}\n```bash\n{e}\n```"
+            else:
+                emb.description = f"<a:check:726040431539912744> {extension}"
 
-    @commands.command(description='Show cogs', hidden=True)
+            await msg.edit(content=None, embed=emb)
+
+    @commands.command()
     @commands.is_owner()
-    @commands.bot_has_permissions(embed_links=True)
-    async def cogs(self, ctx):
-        cogsloaded = ''
-        cogsunloaded = ''
-        embed = discord.Embed(title="Index", colour=discord.Colour(
-            0xFCFCFC), timestamp=ctx.message.created_at)
-        embed.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
+    async def unload(self, ctx, extension):
+        emb = discord.Embed(title='Loading...', colour=0xbf794b)
+        emb1 = discord.Embed(title=f'Unloaded {extension}!', colour=0xbf794b)
+        msg = await ctx.send(embed=emb)
+        await asyncio.sleep(0.5)
 
-        for x in self.bot.cogs:
-            cogsloaded += f'{x}\n'
+        try:
 
-        embed.add_field(name=f"Loaded Cogs:",
-                        value=f'```\n{cogsloaded}```', inline=False)
+            self.bot.unload_extension(f'cogs.{extension}')
 
-        for x in os.listdir('./cogs'):
-            if x.endswith('.py'):
-                if x[:-3] not in cogsloaded:
-                    cogsunloaded += f'{x[:-3]}\n'
+            await msg.edit(embed=emb1)
 
-        embed.add_field(name=f"Unloaded Cogs:",
-                        value=f'```\n{cogsunloaded}```', inline=False)
-        await ctx.send(embed=embed)
+        except Exception as e:
 
-    @commands.command(description='Show owner commands', hidden=True)
+            traceback.print_exc()
+
+            error = discord.Embed(title=f"""UH! There was an error with {extension}!""", description=str(e),
+                                  colour=0xbf794b)
+            await msg.edit(embed=error)
+
+    @commands.command()
     @commands.is_owner()
-    @commands.bot_has_permissions(embed_links=True)
-    async def owner(self, ctx):
-        embed = discord.Embed(title="Owner Panel", colour=discord.Colour.blurple(
-        ), timestamp=ctx.message.created_at)
+    async def asyncio(self, ctx, time, times=None, *, thing=None):
 
-        embed.set_author(name=f"{ctx.author.name}",
-                         icon_url=f"{ctx.author.avatar_url}")
+        "Sleep little Satoru"
 
-        for x in self.bot.commands:
-            if x.hidden:
-                if not x.description:
-                    embed.add_field(name=f"{x.name}", value=f'404',
-                                    inline=False)
-                else:
-                    embed.add_field(name=f"{x.name}",
-                                    value=f'```{x.description}```', inline=False)
+        if not times:
+            times = 1
 
-        msg = await ctx.send(embed=embed)
-        await msg.delete(delay=60)
+        if thing:
 
-    @commands.command(description='Stop bot', hidden=True)
+            thing = f"**{thing}**"
+
+        else:
+
+            thing = " "
+
+        await ctx.message.add_reaction("\U0001f44d")
+
+        for a in range(int(times)):
+            await asyncio.sleep(int(time))
+
+        before = ctx.message.created_at
+
+        await ctx.send(f"{ctx.author.mention}, at `{before.strftime('%d %b %Y - %I:%M %p')}` {thing}")
+
+    @commands.command()
     @commands.is_owner()
-    async def stop(self, ctx):
-        await ctx.send("Turning off...")
-        await self.bot.logout()
+    async def nick(self, ctx, *, nick):
 
-    @commands.command(description='Restart the bot', hidden=True)
+        "Nickname the bot"
+
+        await ctx.guild.me.edit(nick=nick)
+        await ctx.message.add_reaction("<:greenTick:596576670815879169>")
+
+    @commands.command(hidden=True)
+    @commands.is_owner()
+    async def eval(self, ctx, *, body: str):
+        """Evaluates a code"""
+
+        env = {
+            'bot': self.bot,
+            'ctx': ctx,
+            'channel': ctx.channel,
+            'author': ctx.author,
+            'guild': ctx.guild,
+            'message': ctx.message,
+            '_': self._last_result,
+            'owner': self.bot.get_user(488398758812319745)
+        }
+
+        env.update(globals())
+
+        body = self.cleanup_code(body)
+
+        body = f"import asyncio\nimport aiosqlite\nimport os\nimport aiohttp\nimport random\nimport humanize\n{body}"
+
+        stdout = io.StringIO()
+
+        to_compile = f'async def func():\n{textwrap.indent(body, "  ")}'
+
+        try:
+            exec(to_compile, env)
+        except Exception as e:
+            return await ctx.send(f'```py\n{e.__class__.__name__}: {e}\n```')
+
+        func = env['func']
+        try:
+            with redirect_stdout(stdout):
+                ret = await func()
+        except Exception as e:
+            value = stdout.getvalue()
+            await ctx.message.add_reaction("<:redTick:596576672149667840>")
+            await ctx.send(f'```py\n{value}{traceback.format_exc()}\n```')
+        else:
+            value = stdout.getvalue()
+            try:
+                await ctx.message.add_reaction('<a:check:707144339444465724>')
+            except:
+                pass
+
+            if ret is None:
+                if value:
+                    await ctx.send(value)
+            else:
+                self._last_result = ret
+                await ctx.send(f'{value}{ret}')
+
+    @commands.command()
     @commands.is_owner()
     async def restart(self, ctx):
-        try:
+        "restart the bot"
 
-            await ctx.send("Restarting...")
-            os.system(
-                'git pull https://starnumber12046:sCVt8PSP3^1UD3wG@github.com/starnumber12046/matbot.git')
+        await ctx.message.add_reaction("👋")
+        subprocess.call("python3 main.py", shell=True)
+        self.bot.close()
 
-            await self.bot.logout()
-            os.system('pip3 install -r requirements.txt')
-            os.system("python3 bot.py")
-
-        except:
-            await ctx.send('Error!')
-
-    @commands.command(aliases=['up'], description='Load a file', hidden=True)
+    @commands.group(invoke_without_command=True, aliases=["sql"])
     @commands.is_owner()
-    async def upload(self, ctx, *, arg=None):
-        if arg:
-            if '/' in arg:
-                if ctx.message.attachments:
-                    filename = ctx.message.attachments[0].filename
-                    attachment = ctx.message.attachments[0].url
-                    async with aiohttp.ClientSession() as session:
-                        async with session.get(attachment) as resp:
-                            file = await resp.read()
-                            try:
-                                with open(arg + filename, 'wb') as f:
-                                    f.write(file)
-                                    f.close()
-                            except FileNotFoundError:
-                                return await ctx.send('Nope')
-                    await ctx.send(f'✅: {arg + filename}')
-            else:
-                await ctx.send('folder`/`')
-        else:
-            if ctx.message.attachments:
-                filename = ctx.message.attachments[0].filename
-                attachment = ctx.message.attachments[0].url
-                async with aiohttp.ClientSession() as session:
-                    async with session.get(attachment) as resp:
-                        file = await resp.read()
-                        try:
-                            with open('cogs/' + filename, 'wb') as f:
-                                f.write(file)
-                                f.close()
-                        except FileNotFoundError:
-                            return await ctx.send('Nope')
-                await ctx.send(f'✅: cogs/{filename}')
+    async def sqlite(self, ctx, *, command):
+        "run a sqlite command"
 
-    @commands.command(description="create an invite", hidden=True)
+        command = eval(f"f'{command}'")
+
+        async with aiosqlite.connect("data/db.db") as db:
+            data = await db.execute(command)
+
+            if command.lower().startswith("select"):
+                data = await data.fetchall()
+                emb = discord.Embed(description=f"```py\n{data}\n```", colour=self.bot.colour)
+                await ctx.send(embed=emb)
+
+            await db.commit()
+
+        await ctx.message.add_reaction("<a:check:726040431539912744>")
+
+    @commands.command(aliases=["bl"])
     @commands.is_owner()
-    async def get(self, ctx, ID=None):
-        if ID:
-            try:
-                ID = int(ID)
-            except:
-                return await ctx.send("Id must be a numner")
-            g = discord.utils.get(self.bot.guilds, id=ID)
-            if any(l.id == ID for l in self.bot.guilds):
-                try:
-                    for a in g.text_channels:
-                        return await ctx.send(await a.create_invite(max_uses=1))
-                except:
-                    pass
-            else:
-                await ctx.send('I\'m not in the server')
-        else:
-            return await ctx.send("Give me ID")
+    async def blacklist(self, ctx, member: Union[discord.Member, discord.User] = None):
+        "blacklist a user"
 
+        async with ctx.typing():
+            async with aiosqlite.connect("data/db.db") as db:
+                if member:
+                    await db.execute(f"INSERT into blacklist (user) VALUES ({member.id})")
+                    await db.commit()
+
+                else:
+                    data = await db.execute(f"SELECT * from blacklist")
+                    data = await data.fetchall()
+
+                    emb = discord.Embed(description=f"These users are blacklisted:\n", colour=self.bot.colour)
+
+                    for user in data:
+
+                        if int(user[0]) == 0:
+                            pass
+
+                        else:
+                            u = self.bot.get_user(int(user[0]))
+                            if not u:
+                                emb.description += f"• **{user[0]}** (I cannot see this user)\n"
+
+                            else:
+                                emb.description += f"• **{u}**\n"
+
+                    return await ctx.send(embed=emb)
+
+            emb = discord.Embed(description=f"<a:check:726040431539912744> | Blacklisted **{member}**",
+                                colour=self.bot.colour)
+            await ctx.send(embed=emb)
+            await ctx.message.add_reaction("<a:check:726040431539912744>")
+
+    @commands.command(aliases=["ubl"])
     @commands.is_owner()
-    @commands.command(description='send source-link', hidden=True)
-    async def source(self, ctx, *, command):
-        cmd = self.bot.get_command(command)
-        if not cmd:
-            emb = discord.Embed(description=f"<:PepeKMS:719317573493194883> | Commando **{command}** non trovato.",
-                                colour=discord.Colour.red())
-            return await ctx.send(embed=emb)
+    async def unblacklist(self, ctx, member: Union[discord.Member, discord.User] = None):
+        "blacklist a user"
 
-        try:
-            source_lines, _ = inspect.getsourcelines(cmd.callback)
-        except (TypeError, OSError):
-            emb = discord.Embed(description=f"<:PepeKMS:719317573493194883> | I can't get the source of the command **{command}**.",
-                                colour=discord.Colour.red())
-            return await ctx.send(embed=emb)
+        async with ctx.typing():
+            async with aiosqlite.connect("data/db.db") as db:
+                await db.execute(f"UPDATE blacklist set user = 0 where user = {member.id}")
+                await db.commit()
 
-        source_lines_ = ''.join(source_lines)
-
-        await ctx.send(await mystbin(source_lines_))
+            emb = discord.Embed(description=f"<a:check:726040431539912744> | Unblacklisted **{member}**",
+                                colour=self.bot.colour)
+            await ctx.send(embed=emb)
+            await ctx.message.add_reaction("<a:check:726040431539912744>")
 
 
 def setup(bot):
-    bot.add_cog(owner(bot))
+    bot.add_cog(Owner(bot))
