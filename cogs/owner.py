@@ -47,8 +47,8 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
     @commands.command()
     @commands.is_owner()
     async def load(self, ctx, extension):
-        emb = discord.Embed(title='Loading...', colour=0xbf794b)
-        emb1 = discord.Embed(title=f'Loaded {extension}!', colour=0xbf794b)
+        emb = discord.Embed(title='Loading...', colour=self.color)
+        emb1 = discord.Embed(title=f'Loaded {extension}!', colour=self.color)
         msg = await ctx.send(embed=emb)
         await asyncio.sleep(0.5)
 
@@ -63,7 +63,7 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
             traceback.print_exc()
 
             error = discord.Embed(title=f"""UH! There was an error with {extension}!""", description=str(e),
-                                  colour=0xbf794b)
+                                  colour=self.color)
             await msg.edit(embed=error)
 
     @commands.command()
@@ -75,7 +75,7 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
             await self.git.pull(self.bot.loop)
 
             if not extension:
-                emb = discord.Embed(description=f"<a:loading:747680523459231834> | Reloading all extensions",
+                emb = discord.Embed(description=f"<:streaming:736511988594638878> | Ricaricamento in corso...",
                                     colour=self.color)
                 msg = await ctx.send(embed=emb)
                 emb.description = ""
@@ -86,13 +86,13 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
                             self.bot.unload_extension(f"cogs.{cog[:-3]}")
                             self.bot.load_extension(f"cogs.{cog[:-3]}")
                         except:
-                            emb.description += f"<a:fail:727212831782731796> {cog[:-3]}\n"
+                            emb.description += f"<:dboatsDnd:736511781874303006> {cog[:-3]}\n"
                         else:
                             emb.description += f"<a:check:726040431539912744> {cog[:-3]}\n"
 
                 return await msg.edit(content=None, embed=emb)
 
-            emb = discord.Embed(description=f"<a:loading:747680523459231834> | Reloading {extension}",
+            emb = discord.Embed(description=f"<:streaming:736511988594638878> | Reloading {extension}",
                                 colour=self.color)
             msg = await ctx.send(embed=emb)
 
@@ -100,7 +100,7 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
                 self.bot.unload_extension(f"cogs.{extension}")
                 self.bot.load_extension(f"cogs.{extension}")
             except Exception as e:
-                emb.description = f"<a:fail:727212831782731796> | {extension}\n```bash\n{e}\n```"
+                emb.description = f"<:dboatsDnd:736511781874303006> | {extension}\n```bash\n{e}\n```"
             else:
                 emb.description = f"<a:check:726040431539912744> {extension}"
 
@@ -109,8 +109,8 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
     @commands.command()
     @commands.is_owner()
     async def unload(self, ctx, extension):
-        emb = discord.Embed(title='Loading...', colour=0xbf794b)
-        emb1 = discord.Embed(title=f'Unloaded {extension}!', colour=0xbf794b)
+        emb = discord.Embed(title='Caricamento...', colour=self.color)
+        emb1 = discord.Embed(title=f'Scaricata {extension}!', colour=self.color)
         msg = await ctx.send(embed=emb)
         await asyncio.sleep(0.5)
 
@@ -124,8 +124,8 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
 
             traceback.print_exc()
 
-            error = discord.Embed(title=f"""UH! There was an error with {extension}!""", description=str(e),
-                                  colour=0xbf794b)
+            error = discord.Embed(title=f"""UH! Si è verificato un errore in {extension}!""", description=str(e),
+                                  colour=self.color)
             await msg.edit(embed=error)
 
     @commands.command()
@@ -161,7 +161,7 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
         "Nickname the bot"
 
         await ctx.guild.me.edit(nick=nick)
-        await ctx.message.add_reaction("<:greenTick:596576670815879169>")
+        await ctx.message.add_reaction("<a:check:726040431539912744>")
 
     @commands.command(hidden=True)
     @commands.is_owner()
@@ -200,12 +200,12 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
                 ret = await func()
         except Exception as e:
             value = stdout.getvalue()
-            await ctx.message.add_reaction("<:redTick:596576672149667840>")
+            await ctx.message.add_reaction("<:dboatsDnd:736511781874303006>")
             await ctx.send(f'```py\n{value}{traceback.format_exc()}\n```')
         else:
             value = stdout.getvalue()
             try:
-                await ctx.message.add_reaction('<a:check:707144339444465724>')
+                await ctx.message.add_reaction('<:unmute:736511664614277200>')
             except:
                 pass
 
@@ -242,7 +242,7 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
 
             await db.commit()
 
-        await ctx.message.add_reaction("<a:check:726040431539912744>")
+        await ctx.message.add_reaction("<:unmute:736511664614277200>")
 
     @commands.command(aliases=["bl"])
     @commands.is_owner()
@@ -276,10 +276,10 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
 
                     return await ctx.send(embed=emb)
 
-            emb = discord.Embed(description=f"<a:check:726040431539912744> | Blacklisted **{member}**",
+            emb = discord.Embed(description=f"<:unmute:736511664614277200> | Blacklisted **{member}**",
                                 colour=self.color)
             await ctx.send(embed=emb)
-            await ctx.message.add_reaction("<a:check:726040431539912744>")
+            await ctx.message.add_reaction("<:unmute:736511664614277200>")
 
     @commands.command(aliases=["ubl"])
     @commands.is_owner()
@@ -291,10 +291,10 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
                 await db.execute(f"UPDATE blacklist set user = 0 where user = {member.id}")
                 await db.commit()
 
-            emb = discord.Embed(description=f"<a:check:726040431539912744> | Unblacklisted **{member}**",
+            emb = discord.Embed(description=f"<:unmute:736511664614277200> | Unblacklisted **{member}**",
                                 colour=self.color)
             await ctx.send(embed=emb)
-            await ctx.message.add_reaction("<a:check:726040431539912744>")
+            await ctx.message.add_reaction("<:unmute:736511664614277200>")
 
 
 def setup(bot):
