@@ -161,7 +161,7 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
         "Nickname the bot"
 
         await ctx.guild.me.edit(nick=nick)
-        await ctx.message.add_reaction("<a:check:726040431539912744>")
+        await ctx.message.add_reaction("<:unmute:736511664614277200>")
 
     @commands.command(hidden=True)
     @commands.is_owner()
