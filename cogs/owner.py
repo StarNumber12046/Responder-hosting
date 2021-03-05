@@ -22,7 +22,7 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
         self.bot = bot
         self._last_result = None
         self.git = Git()
-        self.color = 0xbf794b
+        self.color = discord.Color.blurple()
 
     def cleanup_code(self, content):
         """Automatically removes code blocks from the code."""
