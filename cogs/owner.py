@@ -47,8 +47,8 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
     @commands.command()
     @commands.is_owner()
     async def load(self, ctx, extension):
-        emb = discord.Embed(title='Loading...', colour=self.color)
-        emb1 = discord.Embed(title=f'Loaded {extension}!', colour=self.color)
+        emb = discord.Embed(title='Caricamento...', colour=self.color)
+        emb1 = discord.Embed(title=f'Caricata {extension}!', colour=self.color)
         msg = await ctx.send(embed=emb)
         await asyncio.sleep(0.5)
 
@@ -92,7 +92,7 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
 
                 return await msg.edit(content=None, embed=emb)
 
-            emb = discord.Embed(description=f"<:streaming:736511988594638878> | Reloading {extension}",
+            emb = discord.Embed(description=f"<:streaming:736511988594638878> | Ricarico {extension}",
                                 colour=self.color)
             msg = await ctx.send(embed=emb)
 
@@ -102,7 +102,7 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
             except Exception as e:
                 emb.description = f"<:dboatsDnd:736511781874303006> | {extension}\n```bash\n{e}\n```"
             else:
-                emb.description = f"<a:check:726040431539912744> {extension}"
+                emb.description = f"<:unmute:736511664614277200> {extension}"
 
             await msg.edit(content=None, embed=emb)
 
