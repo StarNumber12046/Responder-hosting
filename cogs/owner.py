@@ -22,6 +22,7 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
         self.bot = bot
         self._last_result = None
         self.git = Git()
+        self.color = 0xbf794b
 
     def cleanup_code(self, content):
         """Automatically removes code blocks from the code."""
@@ -75,7 +76,7 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
 
             if not extension:
                 emb = discord.Embed(description=f"<a:loading:747680523459231834> | Reloading all extensions",
-                                    colour=self.bot.colour)
+                                    colour=self.color)
                 msg = await ctx.send(embed=emb)
                 emb.description = ""
 
@@ -92,7 +93,7 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
                 return await msg.edit(content=None, embed=emb)
 
             emb = discord.Embed(description=f"<a:loading:747680523459231834> | Reloading {extension}",
-                                colour=self.bot.colour)
+                                colour=self.color)
             msg = await ctx.send(embed=emb)
 
             try:
@@ -236,7 +237,7 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
 
             if command.lower().startswith("select"):
                 data = await data.fetchall()
-                emb = discord.Embed(description=f"```py\n{data}\n```", colour=self.bot.colour)
+                emb = discord.Embed(description=f"```py\n{data}\n```", colour=self.color)
                 await ctx.send(embed=emb)
 
             await db.commit()
@@ -258,7 +259,7 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
                     data = await db.execute(f"SELECT * from blacklist")
                     data = await data.fetchall()
 
-                    emb = discord.Embed(description=f"These users are blacklisted:\n", colour=self.bot.colour)
+                    emb = discord.Embed(description=f"These users are blacklisted:\n", colour=self.color)
 
                     for user in data:
 
@@ -276,7 +277,7 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
                     return await ctx.send(embed=emb)
 
             emb = discord.Embed(description=f"<a:check:726040431539912744> | Blacklisted **{member}**",
-                                colour=self.bot.colour)
+                                colour=self.color)
             await ctx.send(embed=emb)
             await ctx.message.add_reaction("<a:check:726040431539912744>")
 
@@ -291,7 +292,7 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
                 await db.commit()
 
             emb = discord.Embed(description=f"<a:check:726040431539912744> | Unblacklisted **{member}**",
-                                colour=self.bot.colour)
+                                colour=self.color)
             await ctx.send(embed=emb)
             await ctx.message.add_reaction("<a:check:726040431539912744>")
 
