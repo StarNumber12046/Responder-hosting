@@ -5,3 +5,5 @@
 /data/
 *.db
 data/*.json
+data/prefixes.json
+data/db.db
