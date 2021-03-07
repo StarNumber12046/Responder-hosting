@@ -3,6 +3,7 @@ import os
 from discord.ext import commands
 import jishaku
 import prefix
+import dotenv as envfiles
 
 bot = commands.Bot(command_prefix=prefix.get_prefix, intents=discord.Intents.all())
 print(discord)
@@ -19,4 +20,5 @@ for a in os.listdir("./cogs"):
             pass
         else:
             bot.load_extension(f"cogs.{a[:-3]}")
-bot.run('NzI1MzQyMTQ4NDg4MDY5MTYw.XvNVhA.pr4oTJGyDpsMuNM-0ZjeLl2D1FI')
+envfiles.load_dotenv(dotenv_path='.env')
+bot.run(os.environ.get('token'))
