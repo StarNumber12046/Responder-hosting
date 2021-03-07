@@ -1,4 +1,5 @@
-venv/
 *.pyc
-data/
 *.env
+/venv/
+/node_modules/
+/data/
