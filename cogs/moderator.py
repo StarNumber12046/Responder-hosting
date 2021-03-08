@@ -45,6 +45,25 @@ class Moderator(commands.Cog):
         await ctx.send(embed=embed)
         await ctx.guild.unban(u)
 
+    @commands.command()
+    @commands.has_permissions(manage_roles=True)
+    async def unmute(ctx, member: discord.Member):
+        for channel in ctx.guild.text_channels:
+            perms = channel.overwrites_for(member)
+            perms.send_messages = True
+        await channel.set_permissions(member, overwrite=perms, reason=f"UnMuted! (da {ctx.author})")
+        await ctx.send(f"{member} è stato smutato.")
+
+    @commands.command()
+    @commands.has_permissions(manage_roles=True)
+    async def mute(ctx, member: discord.Member):
+        for channel in ctx.guild.text_channels:
+            perms = channel.overwrites_for(member)
+            perms.send_messages = False
+        await channel.set_permissions(member, overwrite=perms, reason=f"Muted! (da {ctx.author})")
+        await ctx.send(f"{member} è stato mutato.")
+
+
 
 
 def setup(bot):
