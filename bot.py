@@ -14,6 +14,7 @@ bot.load_extension('jishaku')
 @bot.event
 async def on_ready():
     print('Online come', bot.user)
+    await bot.change_presence(activity=discord.Watching(name='r-help per una lista di comandi | rispondo a tutto e tutti'))
 
 for a in os.listdir("./cogs"):
     if a.endswith(".py"):
