@@ -3,7 +3,7 @@ app = flask.Flask(__name__)
 
 @app.route('/')
 def main():
-    return 0
+    return('0')
 
 def keep_alive():
     t = threading.Thread(target=run)

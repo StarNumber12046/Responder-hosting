@@ -22,5 +22,5 @@ for a in os.listdir("./cogs"):
         else:
             bot.load_extension(f"cogs.{a[:-3]}")
 envfiles.load_dotenv(dotenv_path='.env')
-server.run()
+server.keep_alive()
 bot.run(os.environ.get('token'))
