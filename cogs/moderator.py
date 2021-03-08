@@ -51,7 +51,7 @@ class Moderator(commands.Cog):
         for channel in ctx.guild.text_channels:
             perms = channel.overwrites_for(member)
             perms.send_messages = True
-        await channel.set_permissions(member, overwrite=perms, reason=f"UnMuted! (da {ctx.author})")
+            await channel.set_permissions(member, overwrite=perms, reason=f"UnMuted! (da {ctx.author})")
         await ctx.send(f"{member} è stato smutato.")
 
     @commands.command()
@@ -60,7 +60,7 @@ class Moderator(commands.Cog):
         for channel in ctx.guild.text_channels:
             perms = channel.overwrites_for(member)
             perms.send_messages = False
-        await channel.set_permissions(member, overwrite=perms, reason=f"Muted! (da {ctx.author})")
+            await channel.set_permissions(member, overwrite=perms, reason=f"Muted! (da {ctx.author})")
         await ctx.send(f"{member} è stato mutato.")
 
 
