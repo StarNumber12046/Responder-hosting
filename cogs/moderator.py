@@ -57,6 +57,7 @@ class Moderator(commands.Cog):
     @commands.command()
     @commands.has_permissions(manage_roles=True)
     async def mute(ctx, member: discord.Member):
+        print(ctx.guild.text_channels)
         for channel in ctx.guild.text_channels:
             perms = channel.overwrites_for(member)
             perms.send_messages = False
