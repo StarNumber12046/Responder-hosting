@@ -1,4 +1,4 @@
-import discord, traceback, random
+import discord, traceback, random, aiohttp
 from discord.ext import commands
 
 
