@@ -1,3 +1,4 @@
+import inspect
 from contextlib import redirect_stdout
 from typing import Union
 
@@ -25,9 +26,7 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
         self.color = discord.Color.blurple()
         self.loop = asyncio.get_event_loop()
 
-    def is_blacklisted(self, user):
-        connection = aiosqlite.connect('../data/db.db')
-        return(connection.execute_fetchall)
+
 
     def cleanup_code(self, content):
         """Automatically removes code blocks from the code."""
@@ -74,7 +73,7 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
     @commands.command()
     @commands.is_owner()
     async def reload(self, ctx, *, extension=None):
-        "reload a cog"
+        """reload a cog"""
 
         async with ctx.typing():
             await self.git.pull(self.bot.loop)
