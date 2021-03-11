@@ -31,7 +31,7 @@ class images(commands.Cog):
 
       async with ctx.typing():
         
-        emb = discord.Embed(colour = 0x2F3136)
+        emb = discord.Embed()
 
         try:
           end = False
@@ -55,7 +55,7 @@ class images(commands.Cog):
               end = False
 
           emb.title = title
-          emb.description = f"<a:upvote:639355848031993867> | {ups}"
+          emb.description = f":thumbsup: | {ups}"
           emb.url = url
           emb.set_author(name = author, url = f"https://reddit.com/{author}")
           emb.set_image(url = url)
