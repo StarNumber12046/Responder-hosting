@@ -6,16 +6,22 @@ class Help(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    def is_blacklisted(ctx):
-        async with aiosqlite.connect('./data/db.db') as db:
-            db.row_factory = aiosqlite.Row
-            async with db.execute('SELECT * FROM blacklist') as cursor:
-                async for row in cursor:
-                    value = row['user']
-                    if int(value) == int(ctx.author.id):
-                        return False
+    def is_blacklisted(self):
+        async def predicate(ctx):
+            async with aiosqlite.connect('./data/db.db') as db:
+                db.row_factory = aiosqlite.Row
+                async with db.execute('SELECT * FROM blacklist') as cursor:
+                    async for row in cursor:
+                        value = row['user']
+                        if int(value) == int(ctx.author.id):
+                            return False
+                        else:
+                            return True
 
-        return True
+        return(commands.check(predicate))
+
+
+
 
 
 
