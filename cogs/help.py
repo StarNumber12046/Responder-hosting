@@ -29,7 +29,7 @@ class Help(commands.Cog):
     @help.command()
     async def utility(self, ctx):
         embed = discord.Embed(title='Utility', description='<> = non obbligatorio | [] = obbligatorio', color=discord.Color.blurple())
-        embed.add_field(name='prefix', value=f'{ctx.prefix}setprefix/prefix [nuovo prefisso/reset] N.B. reset resetta ad **r-** il prefisso')
+        embed.add_field(name='prefix / setprefix', value=f'{ctx.prefix}setprefix/prefix [nuovo prefisso/reset] N.B. reset resetta ad **r-** il prefisso')
         await ctx.send(embed=embed)
 
     @help.command()
