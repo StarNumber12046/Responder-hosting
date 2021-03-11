@@ -12,6 +12,7 @@ class Help(commands.Cog):
         embed.add_field(name='Moderazione', value=f'{ctx.prefix}help moderator | Modera il tuo server', inline=False)
         embed.add_field(name='Misc', value=f'{ctx.prefix}help misc | Comandi inutili ma divertenti', inline=False)
         embed.add_field(name='Info', value=f'{ctx.prefix}help info | Info sul bot', inline=False)
+        embed.add_field(name='Utility', value=f'{ctx.prefix}help utility | Comandi utili', inline=False)
         embed.set_footer(text='C\'è un comando segreto che devi assolutamente trovare! E se lo trovi dillo al mio '
                               'owner StarNumber12046#9008')
         await ctx.send(embed=embed)
@@ -24,6 +25,11 @@ class Help(commands.Cog):
         embed.add_field(name='unban', value=f'{ctx.prefix}unban [user] (Autorizzazione richiesta: bannare membri)', inline=False)
 
         await ctx.send(embed=embed)
+
+    @help.command()
+    async def utility(self, ctx):
+        embed = discord.Embed(title='Utility', description='<> = non obbligatorio | [] = obbligatorio', color=discord.Color.blurple())
+        embed.add_field(name='prefix', description=f'{ctx.prefix}setprefix/prefix [nuovo prefisso/reset] N.B. reset resetta ad **r-** il prefisso')
 
     @help.command()
     async def info(self, ctx):
