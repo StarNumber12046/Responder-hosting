@@ -25,6 +25,10 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
         self.color = discord.Color.blurple()
         self.loop = asyncio.get_event_loop()
 
+    def is_blacklisted(self, user):
+        connection = aiosqlite.connect('../data/db.db')
+        return(connection.execute_fetchall)
+
     def cleanup_code(self, content):
         """Automatically removes code blocks from the code."""
         # remove ```py\n```
