@@ -2,7 +2,12 @@ import discord
 from discord.ext import commands
 import aiosqlite
 import asyncio
-def is_blacklisted(self):
+
+class Help(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+
+    def cog_check(self, ctx):
         async def predicate(ctx):
             async with aiosqlite.connect('./data/db.db') as db:
                 db.row_factory = aiosqlite.Row
@@ -14,12 +19,9 @@ def is_blacklisted(self):
                         else:
                             return True
 
-        return(commands.check(predicate))
-class Help(commands.Cog):
-    def __init__(self, bot):
-        self.bot = bot
+        return (commands.check(predicate))
 
-    
+
 
 
 
@@ -27,7 +29,7 @@ class Help(commands.Cog):
 
 
     @commands.group(invoke_without_command=True)
-    @is_blacklisted()
+
     async def help(self, ctx):
         embed = discord.Embed(title='Aiuto', description=None, color=discord.Color.blurple())
         embed.add_field(name='Moderazione', value=f'{ctx.prefix}help moderator | Modera il tuo server', inline=False)
