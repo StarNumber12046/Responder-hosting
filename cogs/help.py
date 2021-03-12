@@ -2,12 +2,7 @@ import discord
 from discord.ext import commands
 import aiosqlite
 import asyncio
-
-class Help(commands.Cog):
-    def __init__(self, bot):
-        self.bot = bot
-
-    def is_blacklisted(self):
+def is_blacklisted(self):
         async def predicate(ctx):
             async with aiosqlite.connect('./data/db.db') as db:
                 db.row_factory = aiosqlite.Row
@@ -20,6 +15,11 @@ class Help(commands.Cog):
                             return True
 
         return(commands.check(predicate))
+class Help(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+
+    
 
 
 
