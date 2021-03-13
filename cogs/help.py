@@ -15,7 +15,7 @@ def is_blacklisted(ctx):
                         return False
                     else:
                         return True
-    return commands.check(apredicate)
+    return commands.check(predicate)
 
 
 class Help(commands.Cog):
