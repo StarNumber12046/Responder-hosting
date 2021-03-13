@@ -15,7 +15,7 @@ def is_blacklisted(ctx):
                         return False
                     else:
                         return True
-    return commands.check(predicate)
+    return commands.check(await predicate)
 
 
 class Help(commands.Cog):
@@ -25,7 +25,6 @@ class Help(commands.Cog):
 
 
     @commands.group(invoke_without_command=True)
-    @is_blacklisted
     async def help(self, ctx):
         embed = discord.Embed(title='Aiuto', description=None, color=discord.Color.blurple())
         embed.add_field(name='Moderazione', value=f'{ctx.prefix}help moderator | Modera il tuo server', inline=False)
