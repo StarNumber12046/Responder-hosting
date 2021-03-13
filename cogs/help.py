@@ -4,7 +4,7 @@ import aiosqlite
 import asyncio
 
 #async
-async def is_blacklisted(ctx):
+def is_blacklisted(ctx):
     async def predicate(ctx):
         async with aiosqlite.connect('./data/db.db') as db:
             db.row_factory = aiosqlite.Row
