@@ -78,7 +78,7 @@ class Utility(commands.Cog):
                 embed = discord.Embed(title=options[0])
                 for i in args:
                     if count < 10:
-                        embed.add_field(name=i, value=f":{eng(str(count))}:", inline=False)
+                        embed.add_field(name=i, value=f"{eng(str(count))}", inline=False)
                         count = count + 1
 
                 m = await ctx.send(embed=embed)
