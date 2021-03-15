@@ -14,6 +14,7 @@ class Moderator(commands.Cog):
                               description=f'Ho espulso l\'utente {user} per il seguente motivo: {reason}', color=discord.Color.blurple())
         await ctx.send(embed=embed)
         await user.kick(reason=reason)
+        await user.send(f"sei stato espulso da {ctx.guild.name} per il seguente motivo: {reason}")
 
 
 
@@ -26,8 +27,9 @@ class Moderator(commands.Cog):
         embed = discord.Embed(title='Utente bannato',
                               description=f'Ho bannato l\'utente {user} per il seguente motivo: {reason}',
                               color=discord.Color.blurple())
-        await ctx.send(embed=embed)
         await user.ban(reason=reason)
+        await ctx.send(embed=embed)
+        await user.send(f"sei stato bannato da {ctx.guild.name} per il seguente motivo: {reason}")
 
 
 
@@ -42,8 +44,10 @@ class Moderator(commands.Cog):
                               description=f'Ho unbannato l\'utente {u}',
                               color=discord.Color.blurple())
 
-        await ctx.send(embed=embed)
+
         await ctx.guild.unban(u)
+        await ctx.send(embed=embed)
+
 
     @commands.command()
     @commands.has_permissions(manage_roles=True)
