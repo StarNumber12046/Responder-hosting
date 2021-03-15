@@ -48,7 +48,7 @@ class Help(commands.Cog):
     async def utility(self, ctx):
         embed = discord.Embed(title='Utility', description='<> = non obbligatorio | [] = obbligatorio', color=discord.Color.blurple())
         embed.add_field(name='prefix / setprefix', value=f'{ctx.prefix}setprefix/prefix [nuovo prefisso/reset] \nN.B. reset resetta ad **r-** il prefisso', inline=False)
-        embed.add_field(name=f"poll", value=f"{ctx.prefix}poll [titolo sondaggio] | <opzione 1> - <opzione 2> \nN.B. è possibile aggiungere infinite opzioni ma devono essere separate da un -. Se non si inseriscono le opzioni sarà inviato un sondaggio con :thumbsup: e :thumbsdown:", inline=False)
+        embed.add_field(name=f"poll", value=f"{ctx.prefix}poll [titolo sondaggio] | <opzione 1> - <opzione 2> \nN.B. è possibile aggiungere infinite opzioni ma devono essere separate da un **-** . Se non si inseriscono le opzioni sarà inviato un sondaggio con :thumbsup: e :thumbsdown:", inline=False)
         await ctx.send(embed=embed)
 
     @help.command()
