@@ -64,7 +64,7 @@ class Utility(commands.Cog):
     @commands.command()
     async def poll(self, ctx, *, args):
         options = list(args.split(" | "))
-        if len(options) != 1:
+        if len(options) == 1:
             emb = discord.Embed(title=options[0], description=None)
             m = await ctx.send(embed=emb)
             await m.add_reaction(":thumbsup:")
