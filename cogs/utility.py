@@ -70,7 +70,7 @@ class Utility(commands.Cog):
             await m.add_reaction("\U0001f44e")
             await m.add_reaction("\U0001f44d")
         elif len(options) == 2:
-            args = list(options.split(" - "))
+            args = list(options[1].split(" - "))
             if len(args) > 10:
                 await ctx.send(f"Hai inserito troppe opzioni (sono {len(args)} ma il massimo è 10)")
             else:
