@@ -67,8 +67,8 @@ class Utility(commands.Cog):
         if len(options) == 1:
             emb = discord.Embed(title=options[0], description=None)
             m = await ctx.send(embed=emb)
-            await m.add_reaction(":thumbsup:")
-            await m.add_reaction(":thumbsdown:")
+            await m.add_reaction("\U0001f44e")
+            await m.add_reaction("\U0001f44d")
         elif len(options) == 2:
             args = list(options.split(" - "))
             if len(args) > 10:
@@ -85,7 +85,7 @@ class Utility(commands.Cog):
                 count = 0
                 for a in args:
                     if count < 10:
-                        await m.add_reaction(f":{eng(str(count))}:")
+                        await m.add_reaction(f"{eng(str(count))}")
                         count = count + 1
                     else:
                         break
