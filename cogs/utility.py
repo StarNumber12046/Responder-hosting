@@ -14,7 +14,7 @@ import subprocess
 from typing import Union
 import utils
 def eng(int : str):
-    return(int.replace("1", "\U00000031").replace("2", "\U00000032").replace("3", "\U00000033").replace("4", "\U00000034").replace("5", "\U00000035").replace("6", "\U00000036").replace("7", "\U00000037").replace("8", "\U00000038").replace("9", "\U00000039").replace("0", "\U00000030"))
+    return(int.replace("1", "\U0001f1e6").replace("2", "\U0001f1e7").replace("3", "\U0001f1e8").replace("4", "\U0001f1e9").replace("5", "\U0001f1ea").replace("6", "\U0001f1eb").replace("7", "\U0001f1ec").replace("8", "\U0001f1ed").replace("9", "\U0001f1ee:").replace("0", "\U0001f1ef"))
 
 
 class Utility(commands.Cog):
