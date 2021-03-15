@@ -14,7 +14,7 @@ import subprocess
 from typing import Union
 import utils
 def eng(int : str):
-    return(int.replace("1", "one").replace("2", "two").replace("3", "three").replace("4", "four").replace("5", "five").replace("6", "six").replace("7", "seven").replace("8", "eight").replace("9", "nine").replace("0", "zero"))
+    return(int.replace("1", "\U00000031").replace("2", "\U00000032").replace("3", "\U00000033").replace("4", "\U00000034").replace("5", "\U00000035").replace("6", "\U00000036").replace("7", "\U00000037").replace("8", "\U00000038").replace("9", "\U00000039").replace("0", "\U00000030"))
 
 
 class Utility(commands.Cog):
@@ -78,7 +78,7 @@ class Utility(commands.Cog):
                 embed = discord.Embed(title=options[0])
                 for i in args:
                     if count < 10:
-                        embed.add_field(name=i, value=f":{eng(str(count))}:")
+                        embed.add_field(name=i, value=f":{eng(str(count))}:", inline=False)
                         count = count + 1
 
                 m = await ctx.send(embed=embed)
