@@ -70,7 +70,7 @@ class Help(commands.Cog):
                         inline=False)
         embed.add_field(name='say', value=f'{ctx.prefix}say [messaggio]', inline=False)
         embed.add_field(name='comment', value=f'{ctx.prefix}comment [commento youtube] -- <id utente>')
-        embed.add_field(name="meme", value=f"{ctx.prefix}meme")
+        embed.add_field(name="meme", value=f"{ctx.prefix}meme", inline=False)
         await ctx.send(embed=embed)
 
 
