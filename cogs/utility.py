@@ -14,7 +14,7 @@ import subprocess
 from typing import Union
 import utils
 def eng(int : str):
-    return(int.replace("1", "\U0001f1e6").replace("2", "\U0001f1e7").replace("3", "\U0001f1e8").replace("4", "\U0001f1e9").replace("5", "\U0001f1ea").replace("6", "\U0001f1eb").replace("7", "\U0001f1ec").replace("8", "\U0001f1ed").replace("9", "\U0001f1ee:").replace("0", "\U0001f1ef"))
+    return(int.replace("1", "\U0001f1e6").replace("2", "\U0001f1e7").replace("3", "\U0001f1e8").replace("4", "\U0001f1e9").replace("5", "\U0001f1ea").replace("6", "\U0001f1eb").replace("7", "\U0001f1ec").replace("8", "\U0001f1ed").replace("9", "\U0001f1ee:").replace("10", "\U0001f1ef"))
 
 
 class Utility(commands.Cog):
@@ -74,17 +74,17 @@ class Utility(commands.Cog):
             if len(args) > 10:
                 await ctx.send(f"Hai inserito troppe opzioni (sono {len(args)} ma il massimo è 10)")
             else:
-                count = 0
+                count = 1
                 embed = discord.Embed(title=options[0])
                 for i in args:
-                    if count < 10:
+                    if count <= 10:
                         embed.add_field(name=i, value=f"{eng(str(count))}", inline=False)
                         count = count + 1
 
                 m = await ctx.send(embed=embed)
-                count = 0
+                count = 1
                 for a in args:
-                    if count < 10:
+                    if count <= 10:
                         await m.add_reaction(f"{eng(str(count))}")
                         count = count + 1
                     else:
