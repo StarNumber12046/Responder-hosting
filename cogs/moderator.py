@@ -1,7 +1,7 @@
-import discord
+import discord, aiosqlite
 from discord.ext import commands
 from discord.ext.commands import MissingPermissions
-
+import datetime
 class Moderator(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -31,6 +31,14 @@ class Moderator(commands.Cog):
         await ctx.send(embed=embed)
         await user.send(f"sei stato bannato da {ctx.guild.name} per il seguente motivo: {reason}")
 
+    @commands.command()
+    @commands.has_permissions(manage_messages=True)
+    async def warn(self, ctx, member: discord.Member, *, reason):
+        connect = await aiosqlite.connect("./data/warns.db")
+        date = datetime.datetime.now().strftime("%d/%m/%Y (%H:%M)")
+        await connect.execute(f"INSERT INTO warns (user, reason, date) VALUES ({member.id}, {reason}, {str(date)}")
+        await ctx.send(f"Ho avvisato l'utente {member.mention} per il seguente motivo: {reason}")
+
 
 
 
@@ -51,7 +59,7 @@ class Moderator(commands.Cog):
 
     @commands.command()
     @commands.has_permissions(manage_roles=True)
-    async def unmute(ctx, member: discord.Member):
+    async def unmute(self, ctx, member: discord.Member):
         for channel in ctx.guild.text_channels:
             perms = channel.overwrites_for(member)
             perms.send_messages = True
@@ -60,7 +68,7 @@ class Moderator(commands.Cog):
 
     @commands.command()
     @commands.has_permissions(manage_roles=True)
-    async def mute(ctx, member: discord.Member):
+    async def mute(self, ctx, member: discord.Member):
         print(ctx.guild.text_channels)
         for channel in ctx.guild.text_channels:
             perms = channel.overwrites_for(member)
