@@ -2,7 +2,7 @@
 *.env
 /venv/
 /node_modules/
-/data/
+
 *.db
 /cogs/__pycache__
 /__pycache__/
