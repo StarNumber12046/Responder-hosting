@@ -52,7 +52,7 @@ class Moderator(commands.Cog):
 
         member = user.id
         db = await aiosqlite.connect("./data/warns.db")
-        async with db.execute('SELECT * FROM blacklist') as cursor:
+        async with db.execute('SELECT * FROM warns') as cursor:
             async for row in cursor:
                 if row['user'] == ctx.author.id:
                     all += f"{row['reason']} ({row['date']})\n"
