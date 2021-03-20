@@ -61,7 +61,7 @@ class Moderator(commands.Cog):
 
         if all == '':
             all = f"Nessuna infrazione trovata per {user.mention}"
-        await ctx.send(embed=discord.Embed(title=f"Warns per {user.display_name}#{user.tag}", description=all))
+        await ctx.send(embed=discord.Embed(title=f"Warns per {user.display_name}#{user.discriminator}", description=all))
 
 
 
