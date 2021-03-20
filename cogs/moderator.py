@@ -36,10 +36,8 @@ class Moderator(commands.Cog):
     async def warn(self, ctx, member: discord.Member, *, reason):
         connect = await aiosqlite.connect("./data/warns.db")
         date = datetime.datetime.now().strftime("%d/%m/%Y (%H:%M)")
-        await connect.execute("""INSERT INTO warns 
-        (user, reason, date) 
-        VALUES 
-        ({}, {}, {})""".format(member.id, reason.replace(",", "-".replace("'", "\'").replace('"', '\"')), str(date), ))
+        re = reason.replace(",", "-").replace("'", "\'").replace('"', '\"')
+        await connect.execute("INSERT INTO warns (user, reason, date) VALUES (?, ?, ?)", (member.id, re, str(date)))
         await connect.commit()
         await connect.close()
         await ctx.send(f"Ho avvisato l'utente {member.mention} per il seguente motivo: {reason}")
