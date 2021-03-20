@@ -33,7 +33,9 @@ class Moderator(commands.Cog):
 
     @commands.command()
     @commands.has_permissions(manage_messages=True)
-    async def warn(self, ctx, member: discord.Member, *, reason):
+    async def warn(self, ctx, member: discord.Member, *, reason=None):
+        if reason is None:
+            reason = f"warn da parte di {ctx.author}"
         connect = await aiosqlite.connect("./data/warns.db")
         date = datetime.datetime.now().strftime("%d/%m/%Y (%H:%M)")
         re = reason.replace(",", "-").replace("'", "\'").replace('"', '\"')
@@ -41,6 +43,21 @@ class Moderator(commands.Cog):
         await connect.commit()
         await connect.close()
         await ctx.send(f"Ho avvisato l'utente {member.mention} per il seguente motivo: {reason}")
+
+    @commands.command()
+    async def warns(self, ctx, user:discord.Member=None):
+        if user is None:
+            user = ctx.author
+        all = ''
+
+        member = user.id
+        for row in aiosqlite.connect('./data/db.db').execute('SELECT * FROM blacklist'):
+            if row['user'] == ctx.author.id:
+                all += f"{row['reason']} ({row['date']})\n"
+        if all == '':
+            all = f"Nessuna infrazione trovata per {user.mention}"
+        await ctx.send(embed=discord.Embed(title=f"Warns per {user.display_name}#{user.tag}", description=all))
+
 
 
 
