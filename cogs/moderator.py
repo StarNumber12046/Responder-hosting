@@ -51,10 +51,12 @@ class Moderator(commands.Cog):
         all = ''
 
         member = user.id
-        async with aiosqlite.connect("./data/warns.db").execute('SELECT * FROM blacklist') as cursor:
+        db = await aiosqlite.connect("./data/warns.db")
+        async with db.execute('SELECT * FROM blacklist') as cursor:
             async for row in cursor:
                 if row['user'] == ctx.author.id:
                     all += f"{row['reason']} ({row['date']})\n"
+        await db.close()
 
         if all == '':
             all = f"Nessuna infrazione trovata per {user.mention}"
