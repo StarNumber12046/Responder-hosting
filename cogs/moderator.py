@@ -55,8 +55,8 @@ class Moderator(commands.Cog):
         async with db.execute('SELECT * FROM warns') as cursor:
             async for row in cursor:
                 await ctx.send(row)
-                if row['user'] == ctx.author.id:
-                    all += f"{row['reason']} ({row['date']})\n"
+                if row[0] == ctx.author.id:
+                    all += f"{row[1]} ({row[2]})\n"
         await db.close()
 
         if all == '':
