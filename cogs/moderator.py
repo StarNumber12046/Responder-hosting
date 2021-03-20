@@ -55,7 +55,7 @@ class Moderator(commands.Cog):
         async with db.execute('SELECT * FROM warns') as cursor:
             async for row in cursor:
                 await ctx.send(row)
-                if row[0] == ctx.author.id:
+                if row[0] == member:
                     all += f"{row[1]} ({row[2]})\n"
         await ctx.send(all)
         await db.close()
