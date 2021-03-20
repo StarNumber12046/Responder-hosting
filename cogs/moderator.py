@@ -57,7 +57,9 @@ class Moderator(commands.Cog):
                 await ctx.send(row)
                 if row[0] == ctx.author.id:
                     all += f"{row[1]} ({row[2]})\n"
+        await ctx.send(all)
         await db.close()
+
 
         if all == '':
             all = f"Nessuna infrazione trovata per {user.mention}"
@@ -94,7 +96,6 @@ class Moderator(commands.Cog):
     @commands.command()
     @commands.has_permissions(manage_roles=True)
     async def mute(self, ctx, member: discord.Member):
-        print(ctx.guild.text_channels)
         for channel in ctx.guild.text_channels:
             perms = channel.overwrites_for(member)
             perms.send_messages = False
