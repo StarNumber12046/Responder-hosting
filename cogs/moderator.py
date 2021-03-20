@@ -54,6 +54,7 @@ class Moderator(commands.Cog):
         db = await aiosqlite.connect("./data/warns.db")
         async with db.execute('SELECT * FROM warns') as cursor:
             async for row in cursor:
+                await ctx.send(row)
                 if row['user'] == ctx.author.id:
                     all += f"{row['reason']} ({row['date']})\n"
         await db.close()
