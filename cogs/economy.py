@@ -22,10 +22,10 @@ class Economy(commands.Cog):
 
         con = await aiosqlite.connect("./data/economy.db")
         async with await con.execute("SELECT * from economy") as cursor:
-            for a in cursor:
-                if a[0] == user.id:
+            async for row in cursor:
+                if row[0] == user.id:
                     if await has_profile(ctx.author):
-                        embed = discord.Embed(title=f"Soldi di {user.display_name}", description=f"{a[1]} coins")
+                        embed = discord.Embed(title=f"Soldi di {user.display_name}", description=f"{row[1]} coins")
                         break
                     else:
                         embed = discord.Embed(title=f"{user.display_name} Non ha un profilo",
