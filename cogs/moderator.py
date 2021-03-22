@@ -19,7 +19,7 @@ class Moderator(commands.Cog):
 
                         db.execute(f"DELETE FROM warns WHERE id = {id}")
                         await db.commit()
-                        await db.close()
+
 
         await db.close()
 
