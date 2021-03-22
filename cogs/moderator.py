@@ -54,7 +54,7 @@ class Moderator(commands.Cog):
         db = await aiosqlite.connect("./data/mod.db")
         async with db.execute('SELECT * FROM warns') as cursor:
             async for row in cursor:
-
+                await ctx.send(row[3])
                 if row[0] == member and row[3] == ctx.guild.id:
                     all += f"{row[1]} ({row[2]})\n"
 
