@@ -10,19 +10,6 @@ class Misc(commands.Cog):
     async def userinfo(self, ctx, user: discord.Member = None):
         if user is None:
             user = ctx.author
-        if user.nick is None:
-            embed = discord.Embed(title=f'{user} info', description=f"""```md
-<nickname>: {str(user)}
-<id>: {user.id}
-<mobile>: {user.is_on_mobile()}```""", color=user.color)
-            embed.set_thumbnail(url=user.avatar_url)
-            await ctx.send(embed=embed)
-        else:
-            embed = discord.Embed(title=f'{user} info', description=f"""```md
-<nickname>: {user.nick}
-<id>: {user.id}
-<mobile>: {user.is_on_mobile()}```""", color=user.color)
-            embed.set_thumbnail(url=user.avatar_url)
         profile = user.public_flags
         badges = ""
         if profile.staff:
@@ -54,7 +41,21 @@ class Misc(commands.Cog):
 
         if profile.hypesquad_brilliance:
             badges += "<:hypesquadbrillance:823532641855733791> "
-        embed.add_field(name=None, value=badges)
+        if user.nick is None:
+            embed = discord.Embed(title=f'{user} info', description=f"""
+{badges}
+😀: {str(user)}
+🆔: {user.id}
+📱: {user.is_on_mobile()}""", color=user.color)
+            embed.set_thumbnail(url=user.avatar_url)
+            await ctx.send(embed=embed)
+        else:
+            embed = discord.Embed(title=f'{user} info', description=f"""
+{badges}
+😀: {user.nick}
+🆔: {user.id}
+📱: {user.is_on_mobile()}""", color=user.color)
+            embed.set_thumbnail(url=user.avatar_url)
         await ctx.send(embed=embed)
     @commands.command()
     async def serverinfo(self, ctx):
