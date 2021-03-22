@@ -36,10 +36,10 @@ class Moderator(commands.Cog):
     async def warn(self, ctx, member: discord.Member, *, reason=None):
         if reason is None:
             reason = f"warn da parte di {ctx.author}"
-        connect = await aiosqlite.connect("./data/warns.db")
+        connect = await aiosqlite.connect("./data/mod.db")
         date = datetime.datetime.now().strftime("%d/%m/%Y (%H:%M)")
         re = reason.replace(",", "-").replace("'", "\'").replace('"', '\"')
-        await connect.execute("INSERT INTO warns (user, reason, date) VALUES (?, ?, ?)", (member.id, re, str(date)))
+        await connect.execute("INSERT INTO warns (user, reason, date, guild) VALUES (?, ?, ?, ?)", (member.id, re, str(date), str(ctx.guild.id)))
         await connect.commit()
         await connect.close()
         await ctx.send(f"Ho avvisato l'utente {member.mention} per il seguente motivo: {reason}")
@@ -55,7 +55,7 @@ class Moderator(commands.Cog):
         async with db.execute('SELECT * FROM warns') as cursor:
             async for row in cursor:
 
-                if row[0] == member:
+                if row[0] == member and row[3] == ctx.guild.id:
                     all += f"{row[1]} ({row[2]})\n"
 
         await db.close()
