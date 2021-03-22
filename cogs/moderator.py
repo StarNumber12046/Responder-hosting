@@ -58,7 +58,6 @@ class Moderator(commands.Cog):
 
                 if int(row[0]) == member:
                     if str(row[3]) == str(ctx.guild.id):
-                        await ctx.send("ok")
 
                         all += f"{row[1]} ({row[2]})\n"
 
