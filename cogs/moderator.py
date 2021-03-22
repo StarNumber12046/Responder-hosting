@@ -57,6 +57,7 @@ class Moderator(commands.Cog):
 
                 if row[0] == member:
                     if row[3] == ctx.guild.id:
+                        await ctx.send("ok")
                         all += f"{row[1]} ({row[2]})\n"
 
         await db.close()
