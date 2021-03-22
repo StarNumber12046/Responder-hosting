@@ -48,7 +48,6 @@ class Misc(commands.Cog):
 🆔: {user.id}
 📱: {user.is_on_mobile()}""", color=user.color)
             embed.set_thumbnail(url=user.avatar_url)
-            await ctx.send(embed=embed)
         else:
             embed = discord.Embed(title=f'{user} info', description=f"""
 {badges}
