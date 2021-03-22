@@ -64,7 +64,6 @@ class Moderator(commands.Cog):
 
 
                 allwarns += 1
-        await connect.close()
         await connect.execute("INSERT INTO warns (user, reason, date, guild, id) VALUES (?, ?, ?, ?, ?)", (member.id, re, str(date), str(ctx.guild.id), allwarns))
         await connect.commit()
         await connect.close()
