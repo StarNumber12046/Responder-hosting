@@ -2,7 +2,7 @@ import discord, aiosqlite
 from discord.ext import commands
 
 
-async def has_profile(self, user: discord.User):
+async def has_profile(user: discord.User):
     con = await aiosqlite.connect("./data/economy.db")
     for a in await con.execute("SELECT * from economy"):
         if a[0] == user.id:
@@ -26,6 +26,8 @@ class Economy(commands.Cog):
                 if await has_profile(ctx.author):
                     embed = discord.Embed(title=f"Soldi di {user.display_name}", description=f"{a[1]} coins")
                     break
+                else:
+                    embed = discord.Embed(title=f"{user.display_name} Non ha un profilo", description=f"deve crearlo con {ctx.prefix}createprofile")
 
         await ctx.send(embed=embed)
 
