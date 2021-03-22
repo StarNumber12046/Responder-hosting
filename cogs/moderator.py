@@ -71,7 +71,15 @@ class Moderator(commands.Cog):
         all = ''
 
         member = user.id
+        allwarns = 0
+
         db = await aiosqlite.connect("./data/mod.db")
+        async with db.execute('SELECT * FROM warns') as cursor:
+            async for row in cursor:
+
+
+                allwarns += 1
+        await db.close()
         async with db.execute('SELECT * FROM warns') as cursor:
             async for row in cursor:
 
