@@ -26,12 +26,14 @@ class Economy(commands.Cog):
                 if row[0] == user.id:
                     if await has_profile(ctx.author):
                         embed = discord.Embed(title=f"Soldi di {user.display_name}", description=f"{row[1]} coins")
+                        await ctx.send(embed=embed)
                         break
                     else:
                         embed = discord.Embed(title=f"{user.display_name} Non ha un profilo",
                                               description=f"deve crearlo con {ctx.prefix}createprofile")
+                        await ctx.send(embed=embed)
 
-        await ctx.send(embed=embed)
+
 
     @commands.command()
     async def createprofile(self, ctx):
