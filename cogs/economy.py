@@ -4,9 +4,10 @@ from discord.ext import commands
 
 async def has_profile(user: discord.User):
     con = await aiosqlite.connect("./data/economy.db")
-    for a in await con.execute("SELECT * from economy"):
-        if a[0] == user.id:
-            return True
+    async with await con.execute("SELECT * from economy") as cursor:
+        async for row in cursor:
+            if row[0] == user.id:
+                return True
 
     return False
 class Economy(commands.Cog):
