@@ -58,7 +58,13 @@ class Moderator(commands.Cog):
         connect = await aiosqlite.connect("./data/mod.db")
         date = datetime.datetime.now().strftime("%d/%m/%Y (%H:%M)")
         re = reason.replace(",", "-").replace("'", "\'").replace('"', '\"')
-        allwarns = len(connect.execute('SELECT * FROM warns'))
+        allwarns = 0
+        async with connect.execute('SELECT * FROM warns') as cursor:
+            async for row in cursor:
+
+
+                allwarns += 1
+        await connect.close()
         await connect.execute("INSERT INTO warns (user, reason, date, guild, id) VALUES (?, ?, ?, ?, ?)", (member.id, re, str(date), str(ctx.guild.id), allwarns))
         await connect.commit()
         await connect.close()
@@ -74,12 +80,7 @@ class Moderator(commands.Cog):
         allwarns = 0
 
         db = await aiosqlite.connect("./data/mod.db")
-        async with db.execute('SELECT * FROM warns') as cursor:
-            async for row in cursor:
 
-
-                allwarns += 1
-        await db.close()
         async with db.execute('SELECT * FROM warns') as cursor:
             async for row in cursor:
 
