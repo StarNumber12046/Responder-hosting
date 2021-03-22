@@ -17,7 +17,7 @@ class Moderator(commands.Cog):
                 if int(row[4]) == id:
                     if str(row[3]) == str(ctx.guild.id):
 
-                        db.execute(f"DELETE FROM warns WHERE id = {id}")
+                        await db.execute(f"DELETE FROM warns WHERE id = {id}")
                         await db.commit()
 
 
