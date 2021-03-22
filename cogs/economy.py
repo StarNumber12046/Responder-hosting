@@ -23,17 +23,20 @@ class Economy(commands.Cog):
         con = await aiosqlite.connect("./data/economy.db")
         for a in await con.execute("SELECT * from economy"):
             if a[0] == user.id:
-                embed = discord.Embed(title=f"Soldi di {user.display_name}", description=f"{a[1]} coins")
-                break
+                if await has_profile(ctx.author):
+                    embed = discord.Embed(title=f"Soldi di {user.display_name}", description=f"{a[1]} coins")
+                    break
+
         await ctx.send(embed=embed)
 
     @commands.command()
     async def createprofile(self, ctx):
-        if not has_profile(ctx.author):
+        if not await has_profile(ctx.author):
             con = await aiosqlite.connect("./data/economy.db")
             await con.execute("INSERT into economy (user, balance) VALUES (?, ?)", ctx.author.id, 10)
         else:
             await ctx.send("hai già un profilo!")
 
 
-
+def setup(bot):
+    bot.add_cog(Economy(bot))
