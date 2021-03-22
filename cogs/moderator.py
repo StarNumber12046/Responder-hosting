@@ -5,6 +5,25 @@ import datetime
 class Moderator(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.connection = await aiosqlite.connect("./data/mod.db")
+
+    @commands.command()
+    @commands.has_permissions(manage_messages=True)
+    async def removewarn(self, ctx, id:int):
+        db = self.connection
+        async with db.execute('SELECT * FROM warns') as cursor:
+            async for row in cursor:
+
+
+                if int(row[4]) == id:
+                    if str(row[3]) == str(ctx.guild.id):
+
+                        db.execute(f"DELETE FROM warns WHERE id = {id}")
+                        await db.commit()
+                        await db.close()
+
+        await db.close()
+
 
     @commands.command()
     @commands.has_permissions(kick_members=True)
@@ -34,12 +53,14 @@ class Moderator(commands.Cog):
     @commands.command()
     @commands.has_permissions(manage_messages=True)
     async def warn(self, ctx, member: discord.Member, *, reason=None):
+
         if reason is None:
             reason = f"warn da parte di {ctx.author}"
-        connect = await aiosqlite.connect("./data/mod.db")
+        connect = self.connection
         date = datetime.datetime.now().strftime("%d/%m/%Y (%H:%M)")
         re = reason.replace(",", "-").replace("'", "\'").replace('"', '\"')
-        await connect.execute("INSERT INTO warns (user, reason, date, guild) VALUES (?, ?, ?, ?)", (member.id, re, str(date), str(ctx.guild.id)))
+        allwarns = len(connect.execute('SELECT * FROM warns'))
+        await connect.execute("INSERT INTO warns (user, reason, date, guild, id) VALUES (?, ?, ?, ?, ?)", (member.id, re, str(date), str(ctx.guild.id), allwarns))
         await connect.commit()
         await connect.close()
         await ctx.send(f"Ho avvisato l'utente {member.mention} per il seguente motivo: {reason}")
@@ -59,7 +80,7 @@ class Moderator(commands.Cog):
                 if int(row[0]) == member:
                     if str(row[3]) == str(ctx.guild.id):
 
-                        all += f"{row[1]} ({row[2]})\n"
+                        all += f"[ID: {str(row[4])}] {row[1]} ({row[2]})\n"
 
         await db.close()
 
