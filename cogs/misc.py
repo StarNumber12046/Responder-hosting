@@ -23,7 +23,39 @@ class Misc(commands.Cog):
 <id>: {user.id}
 <mobile>: {user.is_on_mobile()}```""", color=user.color)
             embed.set_thumbnail(url=user.avatar_url)
-            await ctx.send(embed=embed)
+        profile = user.public_flags
+        badges = ""
+        if profile.staff:
+            badges += "<:staff:823532641633959936> "
+
+        if profile.verified_bot:
+            badges += "<:verify:823532641520189441> "
+
+        if profile.verified_bot_developer:
+            badges += "<:verifybotdev:823532349408018452> "
+
+        if profile.partner:
+            badges += "<:newpartner:823532641407991809> "
+
+        if profile.bug_hunter:
+            badges += "<:catch1:823532349442621490> "
+
+        if profile.bug_hunter_level_2:
+            badges += "<:buglv2:823532640531251240> "
+
+        if profile.early_supporter:
+            badges += "<:sostegno:823532349592567818> "
+
+        if profile.hypesquad_balance:
+            badges += "<:hypesquadbalance:823532641533165638> "
+
+        if profile.hypesquad_bravery:
+            badges += "<:hypesquadbraverye:823532641600012309 "
+
+        if profile.hypesquad_brilliance:
+            badges += "<:hypesquadbrillance:823532641855733791> "
+        embed.add_field(name=None, value=badges)
+        await ctx.send(embed=embed)
     @commands.command()
     async def serverinfo(self, ctx):
         embed=discord.Embed(title=f'{ctx.guild.name} info', description=f"""Nome: {ctx.guild.name}
