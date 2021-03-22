@@ -5,12 +5,11 @@ import datetime
 class Moderator(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.connection = await aiosqlite.connect("./data/mod.db")
 
     @commands.command()
     @commands.has_permissions(manage_messages=True)
     async def removewarn(self, ctx, id:int):
-        db = self.connection
+        db = await aiosqlite.connect("./data/mod.db")
         async with db.execute('SELECT * FROM warns') as cursor:
             async for row in cursor:
 
@@ -56,7 +55,7 @@ class Moderator(commands.Cog):
 
         if reason is None:
             reason = f"warn da parte di {ctx.author}"
-        connect = self.connection
+        connect = await aiosqlite.connect("./data/mod.db")
         date = datetime.datetime.now().strftime("%d/%m/%Y (%H:%M)")
         re = reason.replace(",", "-").replace("'", "\'").replace('"', '\"')
         allwarns = len(connect.execute('SELECT * FROM warns'))
