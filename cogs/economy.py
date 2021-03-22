@@ -40,7 +40,7 @@ class Economy(commands.Cog):
     async def createprofile(self, ctx):
         if not await has_profile(ctx.author):
             con = await aiosqlite.connect("./data/economy.db")
-            await con.execute("INSERT into economy (user, balance) VALUES (?, ?)", ctx.author.id, 10)
+            await con.execute("INSERT into economy (user, balance) VALUES (?, ?)", (ctx.author.id, 10))
         else:
             await ctx.send("hai già un profilo!")
 
