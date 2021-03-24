@@ -34,13 +34,13 @@ class Welcome(commands.Cog):
                 c = self.bot.get_channel(int(row[1]))
                 await c.send(row[2].replace(f"[usermention]", f"{member.mention}").replace("[membername]", f"{member.display_name}", "[memberdiscrim]", f"{member.discriminator}"))
         await con.close()
-    @commands.group()
+    @commands.group(invoke_without_command=True)
     async def join(self, ctx):
-        await ctx.send(f"{ctx.prefix}join channel: canale di benvenuto | {ctx.prefix}join text: messaggio di benvenuto")
+        await ctx.send(f"{ctx.prefix}join set #canale messaggio")
 
     @join.command()
     async def set(self, ctx, channel:discord.TextChannel=None, *, message = None):
-        con = aiosqlite.connect("./data/misc.db")
+        con = await aiosqlite.connect("./data/misc.db")
         async with con.execute("SELECT * from welcome") as cursor:
             async for row in cursor:
                 if channel is None:
