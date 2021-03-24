@@ -14,6 +14,9 @@ from discord.ext import commands
 
 from utils import Git
 
+
+
+
 colour = 0xbf794b
 
 
@@ -25,6 +28,12 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
         self.git = Git()
         self.color = discord.Color.blurple()
         self.loop = asyncio.get_event_loop()
+        self.sessions = set()
+
+    def get_syntax_error(self, e):
+        if e.text is None:
+            return '```py\n{0.__class__.__name__}: {0}\n```'.format(e)
+        return '```py\n{0.text}{1:>{0.offset}}\n{2}: {0}```'.format(e, '^', type(e).__name__)
 
 
 
@@ -315,7 +324,7 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
 
         await ctx.message.add_reaction("👋")
         subprocess.call("python3 main.py", shell=True)
-        self.bot.close()
+        await self.bot.close()
 
     @commands.group(invoke_without_command=True, aliases=["sql"])
     @commands.is_owner()

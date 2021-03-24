@@ -60,8 +60,8 @@ class Welcome(commands.Cog):
                         found = True
 
         if found:
-            await con.execute(f"Update welcome set channel = {channel.id} where guild = {ctx.guild.id}")
-            await con.execute(f"Update welcome set message = {message} where guild = {ctx.guild.id}")
+            await con.execute(f"Update welcome set channel = {channel.id} WHERE guild = {ctx.guild.id}")
+            await con.execute(f"Update welcome set message = {message} WHERE guild = {ctx.guild.id}")
             await con.commit()
         else:
             await con.execute("INSERT into welcome (guild, channel, message) VALUES (?, ?, ?)", (ctx.guild.id, channel.id, message))
