@@ -6,7 +6,7 @@ class Welcome(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.Cog.listener
+    @commands.Cog.listener()
     async def on_member_join(self, member):
         con = await aiosqlite.connect("./data/misc.db")
         found = False
@@ -20,7 +20,7 @@ class Welcome(commands.Cog):
                 c = self.bot.get_channel(int(row[1]))
                 await c.send(row[2].replace(f"[usermention]", f"{member.mention}").replace("[membername]", f"{member.display_name}", "[memberdiscrim]", f"{member.discriminator}"))
 
-    @commands.Cog.listener
+    @commands.Cog.listener()
     async def on_member_leave(self, member):
         con = await aiosqlite.connect("./data/misc.db")
         found = False
