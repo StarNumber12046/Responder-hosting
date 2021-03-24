@@ -12,9 +12,14 @@ class Welcome(commands.Cog):
         found = False
         async with con.execute("SELECT * from welcome") as cursor:
             async for row in cursor:
-                if row[0] == member.guild.id:
+                print(int(row[0]))
+                print(int(member.guild.id))
+                if int(row[0]) == member.guild.id:
                     g = member.guild
+                    print(g)
+                    print(member.guild.id)
                     found = True
+                    print("ciao")
                     break
             if found is True:
                 c = self.bot.get_channel(int(row[1]))
