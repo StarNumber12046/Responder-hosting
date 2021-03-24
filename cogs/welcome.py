@@ -62,10 +62,12 @@ class Welcome(commands.Cog):
         if found:
             await con.execute(f"Update welcome set channel = {channel.id} where guild = {ctx.guild.id}")
             await con.execute(f"Update welcome set message = {message} where guild = {ctx.guild.id}")
+            await con.commit()
         else:
             await con.execute("INSERT into welcome (guild, channel, message) VALUES (?, ?, ?)", (ctx.guild.id, channel.id, message))
+            await con.commit()
             await ctx.send("Fatto!")
-            await con.close()
+
 
 def setup(bot):
     bot.add_cog(Welcome(bot))
