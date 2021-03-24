@@ -67,6 +67,7 @@ class Welcome(commands.Cog):
             await con.execute("INSERT into welcome (guild, channel, message) VALUES (?, ?, ?)", (ctx.guild.id, channel.id, message))
             await con.commit()
             await ctx.send("Fatto!")
+        await con.close()
 
 
 def setup(bot):
