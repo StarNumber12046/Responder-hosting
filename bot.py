@@ -5,7 +5,7 @@ import jishaku
 import prefix
 import dotenv as envfiles
 import server
-from discord_slash import SlashCommand
+from discord_slash import SlashCommand, SlashContext
 
 bot = commands.Bot(command_prefix=prefix.get_prefix, intents=discord.Intents.all())
 slash = SlashCommand(bot, sync_commands=True) # Declares slash commands through the client.
@@ -23,9 +23,9 @@ guild_ids = [] # Put your server ID in this array.
 for a in bot.guilds:
   guild_ids.append(a.id)
 @slash.slash(name="ping", description="latenza")
-async def _ping(ctx): # Defines a new "context" (ctx) command called "ping."
+async def _ping(ctx: SlashContext): # Defines a new "context" (ctx) command called "ping."
     await ctx.respond()
-    await ctx.send(f"Pong! ({client.latency*1000}ms)")
+    await ctx.send(f"Pong! ({bot.latency*1000}ms)")
 
 for a in os.listdir("./cogs"):
     if a.endswith(".py"):
