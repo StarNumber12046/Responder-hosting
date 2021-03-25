@@ -22,7 +22,7 @@ async def on_ready():
 guild_ids = [] # Put your server ID in this array.
 for a in bot.guilds:
   guild_ids.append(a.id)
-@slash.slash(name="ping", description="latenza"")
+@slash.slash(name="ping", description="latenza")
 async def _ping(ctx): # Defines a new "context" (ctx) command called "ping."
     await ctx.respond()
     await ctx.send(f"Pong! ({client.latency*1000}ms)")
