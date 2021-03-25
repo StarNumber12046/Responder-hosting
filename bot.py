@@ -24,8 +24,15 @@ for a in bot.guilds:
   guild_ids.append(a.id)
 @slash.slash(name="ping", description="latenza")
 async def _ping(ctx: SlashContext): # Defines a new "context" (ctx) command called "ping."
-    await ctx.respond()
-    await ctx.send(embeds=discord.Embed(title="🏓Pong", description=f"{round(bot.latency*1000)}ms impiegati)", color=discord.Colour.blurple()))
+    try:
+        await ctx.respond()
+        await ctx.send(content="Misurazione eseguita con successo!", embeds=[
+            discord.Embed(title="🏓Pong", description=f"{round(bot.latency * 1000)}ms impiegati)",
+                          color=discord.Colour.blurple())])
+    except Exception as e:
+        await ctx.respond()
+        await ctx.send(content=str(e))
+
 
 for a in os.listdir("./cogs"):
     if a.endswith(".py"):
