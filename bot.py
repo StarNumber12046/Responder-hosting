@@ -26,9 +26,8 @@ for a in bot.guilds:
 async def _ping(ctx: SlashContext): # Defines a new "context" (ctx) command called "ping."
     try:
         await ctx.respond()
-        await ctx.send(content="Misurazione eseguita con successo!", embeds=[
-            discord.Embed(title="🏓Pong", description=f"{round(bot.latency * 1000)}ms impiegati)",
-                          color=discord.Colour.blurple())])
+        emb = discord.Embed(title="🏓Pong", description=f"{str(round(bot.latency * 1000))}ms impiegati)", color=discord.Colour.blurple())
+        await ctx.send(content="Misurazione eseguita con successo!", embeds=[emb])
     except Exception as e:
         await ctx.respond()
         await ctx.send(content=str(e))
