@@ -323,7 +323,7 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
         "restart the bot"
 
         await ctx.message.add_reaction("👋")
-        subprocess.call("python3 main.py", shell=True)
+        subprocess.call("python3 bot.py", shell=True)
         await self.bot.close()
 
     @commands.group(invoke_without_command=True, aliases=["sql"])
