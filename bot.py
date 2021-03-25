@@ -25,7 +25,7 @@ for a in bot.guilds:
 @slash.slash(name="ping", description="latenza")
 async def _ping(ctx: SlashContext): # Defines a new "context" (ctx) command called "ping."
     await ctx.respond()
-    await ctx.send(f"Pong! ({bot.latency*1000}ms)")
+    await ctx.send(embeds=discord.Embed(title="🏓Pong", description=f"{round(bot.latency*1000)}ms impiegati)", color=discord.Colour.blurple()))
 
 for a in os.listdir("./cogs"):
     if a.endswith(".py"):
