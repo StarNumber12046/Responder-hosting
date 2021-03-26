@@ -1,5 +1,6 @@
 import discord, aiosqlite
 from discord.ext import commands
+from discord.ext.commands.errors import MemberNotFound
 from discord.ext.commands import MissingPermissions
 import datetime
 from discord_slash import cog_ext, SlashContext
@@ -42,7 +43,7 @@ class Moderator(commands.Cog):
 
         except discord.InvalidArgument:
             await ctx.send("Argomento non valido")
-        except commands.MemberNotFound:
+        except MemberNotFound:
             await ctx.send("Membro inesistente o non trovato")
 
 
@@ -69,7 +70,7 @@ class Moderator(commands.Cog):
 
         except discord.InvalidArgument:
             await ctx.send("Argomento non valido")
-        except commands.MemberNotFound:
+        except MemberNotFound:
             await ctx.send("Membro inesistente o non trovato")
 
 
@@ -143,7 +144,7 @@ class Moderator(commands.Cog):
 
         except discord.InvalidArgument:
             await ctx.send("Argomento non valido")
-        except commands.MemberNotFound:
+        except MemberNotFound:
             await ctx.send("Membro inesistente o non trovato")
 
 
@@ -161,7 +162,7 @@ class Moderator(commands.Cog):
 
         except discord.InvalidArgument:
             await ctx.send("Argomento non valido")
-        except commands.MemberNotFound:
+        except MemberNotFound:
             await ctx.send("Membro inesistente o non trovato")
 
     @commands.command()
@@ -178,7 +179,7 @@ class Moderator(commands.Cog):
 
         except discord.InvalidArgument:
             await ctx.send("Argomento non valido")
-        except commands.MemberNotFound:
+        except MemberNotFound:
             await ctx.send("Membro inesistente o non trovato")
 
 
