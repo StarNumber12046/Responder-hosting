@@ -11,6 +11,7 @@ aiohttp = "^3.7.4"
 aiosqlite = "^0.17.0"
 discord = "^1.0.1"
 jishaku = "^1.20.0"
+discord-py-slash-command = "^1.0.9"
 
 [tool.poetry.dev-dependencies]
 

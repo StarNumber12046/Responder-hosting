@@ -53,9 +53,8 @@ async def test(ctx, optone: str):
         description="Cosa deve dire il bot?",
         option_type=3,
         required=True)])
-async def say(ctx:SlashContext):
+async def say(ctx:SlashContext, testo : str):
     try:
-        global testo
         await ctx.send(testo)
     except Exception as e:
         error = discord.Embed(title="SI è verificato un problema!", description=e, color=discord.Color.red())
