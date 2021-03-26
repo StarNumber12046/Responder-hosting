@@ -68,6 +68,7 @@ class Moderator(commands.Cog):
     async def slashban(self, ctx, Utente, Motivo):
         await self.bot.get_user(Utente).ban(reason=Motivo)
         await ctx.respond()
+        await ctx.send(type(Utente))
         await ctx.send(f"{self.bot.fetch_user(Utente).mention()} bannato")
 
 
