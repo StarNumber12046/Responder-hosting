@@ -40,6 +40,11 @@ class Moderator(commands.Cog):
         except discord.Forbidden:
             await ctx.send("Non ho il permesso")
 
+        except discord.InvalidArgument:
+            await ctx.send("Argomento non valido")
+        except commands.MemberNotFound:
+            await ctx.send("Membro inesistente o non trovato")
+
 
 
 
@@ -64,6 +69,8 @@ class Moderator(commands.Cog):
 
         except discord.InvalidArgument:
             await ctx.send("Argomento non valido")
+        except commands.MemberNotFound:
+            await ctx.send("Membro inesistente o non trovato")
 
 
 
@@ -123,33 +130,56 @@ class Moderator(commands.Cog):
     @commands.has_permissions(ban_members=True)
     @commands.bot_has_permissions(ban_members=True)
     async def unban(self, ctx, user: int):
-        u = self.bot.get_user(user)
-        embed = discord.Embed(title='Utente unbannato',
-                              description=f'Ho unbannato l\'utente {u}',
-                              color=discord.Color.blurple())
+        try:
+            u = self.bot.get_user(user)
+            embed = discord.Embed(title='Utente unbannato',
+                                  description=f'Ho unbannato l\'utente {u}',
+                                  color=discord.Color.blurple())
 
+            await ctx.guild.unban(u)
+            await ctx.send(embed=embed)
+        except discord.Forbidden:
+            await ctx.send("Non ho il permesso")
 
-        await ctx.guild.unban(u)
-        await ctx.send(embed=embed)
+        except discord.InvalidArgument:
+            await ctx.send("Argomento non valido")
+        except commands.MemberNotFound:
+            await ctx.send("Membro inesistente o non trovato")
 
 
     @commands.command()
     @commands.has_permissions(manage_roles=True)
     async def unmute(self, ctx, member: discord.Member):
-        for channel in ctx.guild.text_channels:
-            perms = channel.overwrites_for(member)
-            perms.send_messages = True
-            await channel.set_permissions(member, overwrite=perms, reason=f"UnMuted! (da {ctx.author})")
-        await ctx.send(f"{member} è stato smutato.")
+        try:
+            for channel in ctx.guild.text_channels:
+                perms = channel.overwrites_for(member)
+                perms.send_messages = True
+                await channel.set_permissions(member, overwrite=perms, reason=f"UnMuted! (da {ctx.author})")
+            await ctx.send(f"{member} è stato smutato.")
+        except discord.Forbidden:
+            await ctx.send("Non ho il permesso")
+
+        except discord.InvalidArgument:
+            await ctx.send("Argomento non valido")
+        except commands.MemberNotFound:
+            await ctx.send("Membro inesistente o non trovato")
 
     @commands.command()
     @commands.has_permissions(manage_roles=True)
     async def mute(self, ctx, member: discord.Member):
-        for channel in ctx.guild.text_channels:
-            perms = channel.overwrites_for(member)
-            perms.send_messages = False
-            await channel.set_permissions(member, overwrite=perms, reason=f"Muted! (da {ctx.author})")
-        await ctx.send(f"{member} è stato mutato.")
+        try:
+            for channel in ctx.guild.text_channels:
+                perms = channel.overwrites_for(member)
+                perms.send_messages = False
+                await channel.set_permissions(member, overwrite=perms, reason=f"Muted! (da {ctx.author})")
+            await ctx.send(f"{member} è stato mutato.")
+        except discord.Forbidden:
+            await ctx.send("Non ho il permesso")
+
+        except discord.InvalidArgument:
+            await ctx.send("Argomento non valido")
+        except commands.MemberNotFound:
+            await ctx.send("Membro inesistente o non trovato")
 
 
 
