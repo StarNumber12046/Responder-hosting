@@ -6,6 +6,7 @@ import prefix
 import dotenv as envfiles
 import server
 from discord_slash import SlashCommand, SlashContext
+from discord_slash.utils.manage_commands import create_option
 
 bot = commands.Bot(command_prefix=prefix.get_prefix, intents=discord.Intents.all())
 slash = SlashCommand(bot, sync_commands=True) # Declares slash commands through the client.
@@ -31,7 +32,14 @@ async def _ping(ctx: SlashContext): # Defines a new "context" (ctx) command call
     except Exception as e:
         await ctx.respond()
         await ctx.send(content=str(e))
-
+say = create_option(
+        name="testo",
+        description="Cosa deve dire il bot?",
+        option_type=3,
+        required=True)
+@slash.slash(name="say", description="il bot parla al posto tuo qualcosa", options=[say])
+async def _say(ctx: SlashContext):
+    await ctx.send(testo)
 
 for a in os.listdir("./cogs"):
     if a.endswith(".py"):
