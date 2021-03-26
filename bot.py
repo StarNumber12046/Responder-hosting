@@ -9,7 +9,7 @@ from discord_slash import SlashCommand, SlashContext
 from discord_slash.utils.manage_commands import create_option
 
 bot = commands.Bot(command_prefix=prefix.get_prefix, intents=discord.Intents.all())
-slash = SlashCommand(bot, sync_commands=True) # Declares slash commands through the client.
+slash = SlashCommand(bot, sync_commands=True, override_type=True) # Declares slash commands through the client.
 
 print(discord)
 bot.remove_command('help')
@@ -20,9 +20,6 @@ async def on_ready():
     print('Online come', bot.user)
     await bot.change_presence(activity=discord.Streaming(name='r-help per una lista di comandi | rispondo a tutto e tutti', url='https://twitch.tv/starnumber12046'))
 
-guild_ids = [] # Put your server ID in this array.
-for a in bot.guilds:
-  guild_ids.append(a.id)
 @slash.slash(name="ping", description="latenza")
 async def _ping(ctx: SlashContext): # Defines a new "context" (ctx) command called "ping."
     try:
@@ -32,20 +29,6 @@ async def _ping(ctx: SlashContext): # Defines a new "context" (ctx) command call
     except Exception as e:
         await ctx.respond()
         await ctx.send(content=str(e))
-
-@slash.slash(name="test",
-             description="This is just a test command, nothing more.",
-             options=[
-               create_option(
-                 name="optone",
-                 description="This is the first option we have.",
-                 option_type=3,
-                 required=False
-               )
-             ])
-async def test(ctx, optone: str):
-  await ctx.send(content=f"I got you, you said {optone}!")
-
 
 @slash.slash(name="say", description="il bot parla al posto tuo qualcosa", options=[
     create_option(
@@ -58,8 +41,10 @@ async def say(ctx:SlashContext, testo : str):
         await ctx.send(testo)
     except Exception as e:
         error = discord.Embed(title="SI è verificato un problema!", description=e, color=discord.Color.red())
-        await ctx.send(embeds=[error])
         print(e)
+        await ctx.send(embeds=[error])
+
+
 
 for a in os.listdir("./cogs"):
     if a.endswith(".py"):

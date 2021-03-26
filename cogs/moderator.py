@@ -2,6 +2,8 @@ import discord, aiosqlite
 from discord.ext import commands
 from discord.ext.commands import MissingPermissions
 import datetime
+from discord_slash import cog_ext, SlashContext
+from discord_slash.utils.manage_commands import create_option
 class Moderator(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -48,6 +50,27 @@ class Moderator(commands.Cog):
         await user.ban(reason=reason)
         await ctx.send(embed=embed)
         await user.send(f"sei stato bannato da {ctx.guild.name} per il seguente motivo: {reason}")
+
+    @cog_ext.cog_slash(name="ban", description="banna quaòcuno", options=[
+        create_option(
+            name="Utente",
+            description="Utente da BANNARE",
+            option_type=6,
+            required=True
+
+        ),
+        create_option(
+            name="Motivo",
+            description="Motivo del BAN",
+            option_type=3,
+            required=False)
+    ])
+    async def slashban(self, ctx, Utente, Motivo):
+        await self.bot.get_user(Utente).ban(reason=Motivo)
+        await ctx.respond()
+        await ctx.send(f"{self.bot.fetch_user(Utente).mention()} bannato")
+
+
 
     @commands.command()
     @commands.has_permissions(manage_messages=True)
