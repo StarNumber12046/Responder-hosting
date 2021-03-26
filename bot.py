@@ -43,7 +43,7 @@ say = create_option(
         description="Cosa deve dire il bot?",
         option_type=3,
         required=True)])
-async def _saycommand(ctx:SlashContext):
+async def say(ctx:SlashContext):
     try:
         global testo
         await ctx.send(testo)
