@@ -42,7 +42,7 @@ class Moderator(commands.Cog):
 
         except discord.InvalidArgument:
             await ctx.send("Argomento non valido")
-        except Exception as e:
+        except:
             await ctx.send("SI è verificato un errore sconosciuto")
 
 
@@ -69,7 +69,7 @@ class Moderator(commands.Cog):
 
         except discord.InvalidArgument:
             await ctx.send("Argomento non valido")
-        except Exception as e:
+        except:
             await ctx.send("SI è verificato un errore sconosciuto")
 
 
@@ -143,7 +143,7 @@ class Moderator(commands.Cog):
 
         except discord.InvalidArgument:
             await ctx.send("Argomento non valido")
-        except Exception as e:
+        except:
             await ctx.send("SI è verificato un errore sconosciuto")
 
 
@@ -161,7 +161,7 @@ class Moderator(commands.Cog):
 
         except discord.InvalidArgument:
             await ctx.send("Argomento non valido")
-        except Exception as e:
+        except:
             await ctx.send("SI è verificato un errore sconosciuto")
 
     @commands.command()
@@ -178,7 +178,7 @@ class Moderator(commands.Cog):
 
         except discord.InvalidArgument:
             await ctx.send("Argomento non valido")
-        except Exception as e:
+        except:
             await ctx.send("SI è verificato un errore sconosciuto")
 
 
