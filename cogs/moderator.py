@@ -30,11 +30,18 @@ class Moderator(commands.Cog):
     @commands.has_permissions(kick_members=True)
     @commands.bot_has_permissions(kick_members=True)
     async def kick(self, ctx, user: discord.Member, *, reason='motivo non precisato'):
-        embed = discord.Embed(title='Utente espulso',
-                              description=f'Ho espulso l\'utente {user} per il seguente motivo: {reason}', color=discord.Color.blurple())
-        await ctx.send(embed=embed)
-        await user.kick(reason=reason)
-        await user.send(f"sei stato espulso da {ctx.guild.name} per il seguente motivo: {reason}")
+        try:
+            embed = discord.Embed(title='Utente espulso',
+                                  description=f'Ho espulso l\'utente {user} per il seguente motivo: {reason}',
+                                  color=discord.Color.blurple())
+            await ctx.send(embed=embed)
+            await user.kick(reason=reason)
+            await user.send(f"sei stato espulso da {ctx.guild.name} per il seguente motivo: {reason}")
+        except discord.Forbidden:
+            await ctx.send("Non ho il permesso")
+
+
+
 
 
 
@@ -44,32 +51,19 @@ class Moderator(commands.Cog):
     @commands.has_permissions(ban_members=True)
 
     async def ban(self, ctx, user: discord.Member, *, reason='motivo non precisato'):
-        embed = discord.Embed(title='Utente bannato',
-                              description=f'Ho bannato l\'utente {user} per il seguente motivo: {reason}',
-                              color=discord.Color.blurple())
-        await user.ban(reason=reason)
-        await ctx.send(embed=embed)
-        await user.send(f"sei stato bannato da {ctx.guild.name} per il seguente motivo: {reason}")
+        try:
+            embed = discord.Embed(title='Utente bannato',
+                                  description=f'Ho bannato l\'utente {user} per il seguente motivo: {reason}',
+                                  color=discord.Color.blurple())
+            await user.ban(reason=reason)
+            await ctx.send(embed=embed)
+            await user.send(f"sei stato bannato da {ctx.guild.name} per il seguente motivo: {reason}")
 
-    @cog_ext.cog_slash(name="ban", description="banna quaòcuno", options=[
-        create_option(
-            name="Utente",
-            description="Utente da BANNARE",
-            option_type=6,
-            required=True
+        except discord.Forbidden:
+            await ctx.send("Non ho il permesso")
 
-        ),
-        create_option(
-            name="Motivo",
-            description="Motivo del BAN",
-            option_type=3,
-            required=False)
-    ])
-    async def slashban(self, ctx, Utente, Motivo):
-        await ctx.respond()
-        await ctx.send(type(Utente))
-        await ctx.send(f"{self.bot.fetch_user(Utente).mention()} bannato")
-        await self.bot.get_user(Utente).ban(reason=Motivo)
+        except discord.InvalidArgument:
+            await ctx.send("Argomento non valido")
 
 
 

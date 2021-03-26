@@ -9,16 +9,12 @@ class errori(commands.Cog):
         self.bot = bot
         self.ignore = ('vol', 'tra', 'equalizer', 'appeal_reason', 'amount', 'tempo')
 
-    @commands.command(description='Effettua il check dei permessi del bot')
-    @commands.bot_has_permissions(manage_messages=True, attach_files=True, embed_links=True)
-    async def setup(self, ctx):
-        await ctx.send('Ho tutti i permessi per un corretto funzionamento, ottimo direi!')
+
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
         if isinstance(error, commands.CommandNotFound):
-            if ctx.guild.id == 714802740345176074 and ctx.channel.id == 714806643535249462:
-                await ctx.send('Comando sconosciuto')
+                await ctx.message.add_reaction('\U00002753')
         elif isinstance(error, commands.errors.MissingAnyRole):
             if ctx.author.id in self.bot.owner_ids:  # ctx.author.id == self.bot.owner_id: se non è in un team
                 await ctx.message.add_reaction('🔥')
@@ -98,6 +94,8 @@ class errori(commands.Cog):
             embed = discord.Embed(title="", colour=discord.Colour.red())
             embed.add_field(name="⚠ | Ti mancano i seguenti permessi:", value=f'```{ita}```', inline=False)
             await ctx.send(embed=embed)
+        elif isinstance(commands.MissingRequiredArgument):
+            await ctx.send("Una parte del comando **manca**")
         raise error
 
 
