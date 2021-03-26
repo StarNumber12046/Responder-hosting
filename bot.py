@@ -37,9 +37,15 @@ say = create_option(
         description="Cosa deve dire il bot?",
         option_type=3,
         required=True)
-@slash.slash(name="say", description="il bot parla al posto tuo qualcosa", options=[say])
+@slash.slash(name="say", description="il bot parla al posto tuo qualcosa", options=[
+    create_option(
+        name="testo",
+        description="Cosa deve dire il bot?",
+        option_type=3,
+        required=True)])
 async def _saycommand(ctx:SlashContext):
     try:
+        global testo
         await ctx.send(testo)
     except Exception as e:
         error = discord.Embed(title="SI è verificato un problema!", description=e, color=discord.Color.red())
