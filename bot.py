@@ -38,7 +38,7 @@ say = create_option(
         option_type=3,
         required=True)
 @slash.slash(name="say", description="il bot parla al posto tuo qualcosa", options=[say])
-async def _saycommand(ctx: SlashContext):
+async def _saycommand(ctx:SlashContext):
     try:
         await ctx.send(testo)
     except Exception as e:
