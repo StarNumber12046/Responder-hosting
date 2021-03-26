@@ -32,11 +32,21 @@ async def _ping(ctx: SlashContext): # Defines a new "context" (ctx) command call
     except Exception as e:
         await ctx.respond()
         await ctx.send(content=str(e))
-say = create_option(
-        name="testo",
-        description="Cosa deve dire il bot?",
-        option_type=3,
-        required=True)
+
+@slash.slash(name="test",
+             description="This is just a test command, nothing more.",
+             options=[
+               create_option(
+                 name="optone",
+                 description="This is the first option we have.",
+                 option_type=3,
+                 required=False
+               )
+             ])
+async def test(ctx, optone: str):
+  await ctx.send(content=f"I got you, you said {optone}!")
+
+
 @slash.slash(name="say", description="il bot parla al posto tuo qualcosa", options=[
     create_option(
         name="testo",
