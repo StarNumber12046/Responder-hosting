@@ -9,12 +9,10 @@ class errori(commands.Cog):
         self.bot = bot
         self.ignore = ('vol', 'tra', 'equalizer', 'appeal_reason', 'amount', 'tempo')
 
-
-
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
         if isinstance(error, commands.CommandNotFound):
-                await ctx.message.add_reaction('\U00002753')
+            await ctx.message.add_reaction('\U00002753')
         elif isinstance(error, commands.errors.MissingAnyRole):
             if ctx.author.id in self.bot.owner_ids:  # ctx.author.id == self.bot.owner_id: se non è in un team
                 await ctx.message.add_reaction('🔥')
@@ -94,10 +92,9 @@ class errori(commands.Cog):
             embed = discord.Embed(title="", colour=discord.Colour.red())
             embed.add_field(name="⚠ | Ti mancano i seguenti permessi:", value=f'```{ita}```', inline=False)
             await ctx.send(embed=embed)
-        elif isinstance(commands.MissingRequiredArgument):
+        elif isinstance(error, commands.MissingRequiredArgument):
             await ctx.send("Una parte del comando **manca**")
         raise error
-
 
 
 def setup(bot):
