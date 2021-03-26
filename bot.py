@@ -39,7 +39,11 @@ say = create_option(
         required=True)
 @slash.slash(name="say", description="il bot parla al posto tuo qualcosa", options=[say])
 async def _say(ctx: SlashContext):
-    await ctx.send(testo)
+    try:
+        await ctx.send(testo)
+    except Exception as e:
+        error = discord.Embed(title="SI è verificato un problema!", description=e, color=discord.Color.red())
+        await ctx.send(embeds=[error])
 
 for a in os.listdir("./cogs"):
     if a.endswith(".py"):
