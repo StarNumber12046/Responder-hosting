@@ -20,6 +20,7 @@ class Emoji(commands.Cog):
             await con.execute("INSERT into emojis (guild, channel) VALUES (?, ?)", (ctx.guild.id, channel.id))
         await con.commit()
         await con.close()
+        await ctx.send("OK!")
 
     @emotechannel.command()
     async def remove(self, ctx):
@@ -38,3 +39,6 @@ class Emoji(commands.Cog):
         else:
             await ctx.send("Non hai impostato un canale!!!")
         await con.close()
+
+def setup(bot):
+    bot.add_cog(Emoji(bot))
