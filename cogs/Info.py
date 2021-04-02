@@ -6,8 +6,8 @@ class Info(commands.Cog):
         self.bot = bot
 
     @commands.command()
-    async def invite(self, ctx):
-        await ctx.send(embed=discord.Embed(title='Invitami!', description=None, url='https://discord.com/api/oauth2/authorize?client_id=725342148488069160&permissions=1911946966&scope=bot'))
+    async def invite(self, ctx, integrer = "1911946966"):
+        await ctx.send(embed=discord.Embed(title='Invitami!', description=None, url=f'https://discord.com/api/oauth2/authorize?client_id={self.bot.user.id}&permissions={integrer}&scope=bot'))
 
     @commands.command()
     async def support(self, ctx):

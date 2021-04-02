@@ -41,7 +41,9 @@ class Help(commands.Cog):
         embed.add_field(name='ban', value=f'{ctx.prefix}ban [user] <reason> (Autorizzazione richiesta: bannare membri)', inline=False)
         embed.add_field(name='kick', value=f'{ctx.prefix}kick [user] <reason> (Autorizzazione richiesta: espellere membri)', inline=False)
         embed.add_field(name='unban', value=f'{ctx.prefix}unban [user] (Autorizzazione richiesta: bannare membri)', inline=False)
-
+        embed.add_field(name="warn", value=f"{ctx.prefix}warn [user] reason (autorizzazione richiesta: gestire messaggi)\navvisa un utente")
+        embed.add_field(name="warns", value=f"{ctx.prefix}warns <user>\nvisualizza avvisi di un utente")
+        embed.add_field(name="removewarn", value=f"{ctx.prefix}removewarn [id] (autorizzazione richiesta: gestire messaggi)\nrimuove un avviso ad un utente")
         await ctx.send(embed=embed)
 
     @help.command()
@@ -54,8 +56,8 @@ class Help(commands.Cog):
     @help.command()
     async def info(self, ctx):
         embed = discord.Embed(title='Info sul bot', description='[] = obbligatorio, <> = non obbligatorio', color=discord.Color.blurple())
-        embed.add_field(name='Invite', value=f'{ctx.prefix}invite | invitami', inline=False)
-        embed.add_field(name='Support', value=f'{ctx.prefix}support | server di supporto', inline=False)
+        embed.add_field(name='Invite', value=f'{ctx.prefix}invite <permissions integrer> (se non si scrive nulla il bot userà i permessi consigliati)', inline=False)
+        embed.add_field(name='Support', value=f'{ctx.prefix}support', inline=False)
         await ctx.send(embed=embed)
 
 

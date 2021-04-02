@@ -68,8 +68,9 @@ Numero canali: {len(ctx.guild.text_channels) + len(ctx.guild.voice_channels)}"""
 
     @commands.command()
     async def triggered(self, ctx):
-        await ctx.send('You triggered meeeeeeeee!')
-        await ctx.send('SONO esploso ||questo comando è segreto!||')
+        pass
+
+
 
 
 
