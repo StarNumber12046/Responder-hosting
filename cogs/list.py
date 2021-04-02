@@ -32,7 +32,7 @@ class TopGG(commands.Cog):
         except Exception as e:
             logger.exception('Failed to post server count\n{}: {}'.format(type(e).__name__, e))
 
-    def has_voted(self, id, user):
+    async def has_voted(self, id, user):
         async with aiohttp.ClientSession() as cs:
             data = await cs.get(f"top.gg/api/bots/{id}/check?userId={user}")
             json = await data.json()
