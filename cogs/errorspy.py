@@ -94,6 +94,8 @@ class errori(commands.Cog):
             await ctx.send(embed=embed)
         elif isinstance(error, commands.MissingRequiredArgument):
             await ctx.send("Una parte del comando **manca**")
+        else:
+            await ctx.send("Si è verificato un errore sconosciuto. Verifica di aver inserito correttamente i dati e riprova. Se il problema persiste entra nel server di supporto")
         raise error
 
 
