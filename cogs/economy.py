@@ -4,12 +4,15 @@ from discord.ext import commands
 
 async def has_profile(user: discord.User):
     con = await aiosqlite.connect("./data/economy.db")
+    found = False
     async with await con.execute("SELECT * from economy") as cursor:
         async for row in cursor:
             if row[0] == user.id:
-                return True
+                found = True
 
-    return False
+    await con.close()
+    return found
+
 class Economy(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -33,6 +36,7 @@ class Economy(commands.Cog):
                         embed = discord.Embed(title=f"{user.display_name} Non ha un profilo",
                                               description=f"deve crearlo con {ctx.prefix}createprofile")
                         await ctx.send(embed=embed)
+        await con.close()
 
 
 
@@ -41,6 +45,9 @@ class Economy(commands.Cog):
         if not await has_profile(ctx.author):
             con = await aiosqlite.connect("./data/economy.db")
             await con.execute("INSERT into economy (user, balance) VALUES (?, ?)", (ctx.author.id, 10))
+            await con.commit()
+            await con.close()
+
         else:
             await ctx.send("hai già un profilo!")
 
