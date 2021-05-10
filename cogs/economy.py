@@ -1,4 +1,4 @@
-import discord, aiosqlite
+import discord, aiosqlite, random
 from discord.ext import commands
 
 
@@ -54,12 +54,13 @@ class Economy(commands.Cog):
         else:
             await ctx.send("hai già un profilo!")
     @commands.command()
-    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.cooldown(1, 100, commands.BucketType.user)
     async def work(self, ctx):
         if not await has_profile(ctx.author):
             await ctx.send("Devi creare un profilo")
             return "not"
         con = await aiosqlite.connect("./data/economy.db")
+        rand = random.randint(1, 100)
         async with await con.execute("SELECT * from economy") as cursor:
 
             print("starting...")
@@ -81,10 +82,11 @@ class Economy(commands.Cog):
             return await ctx.send("OOF")
 
 
-        await con.execute("UPDATE economy SET balance = ? where user = ?", (bal + 10, ctx.author.id))
-        await ctx.send("Hai lavorato")
+        await con.execute("UPDATE economy SET balance = ? where user = ?", (bal + rand, ctx.author.id))
+        await ctx.send(f"Hai lavorato e hai guadagnato {rand} coins")
         async with await con.execute("SELECT * from economy") as cursor:
             print("starting...")
+
             async for row in cursor:
 
                 print(row)
