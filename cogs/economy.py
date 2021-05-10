@@ -53,6 +53,54 @@ class Economy(commands.Cog):
 
         else:
             await ctx.send("hai già un profilo!")
+    @commands.command()
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    async def work(self, ctx):
+        if not await has_profile(ctx.author):
+            await ctx.send("Devi creare un profilo")
+            return "not"
+        con = await aiosqlite.connect("./data/economy.db")
+        async with await con.execute("SELECT * from economy") as cursor:
+
+            print("starting...")
+            async for row in cursor:
+
+                print(row)
+                print(type(ctx.author.id))
+                print("lel")
+                print(type(row[0]))
+                sus = row[0] == ctx.author.id
+                print(sus)
+                if sus:
+                    bal = int(row[1])
+                    print(row[0])
+                    print(bal)
+        try:
+            print(bal)
+        except:
+            return await ctx.send("OOF")
+
+
+        await con.execute("UPDATE economy SET balance = ? where user = ?", (bal + 10, ctx.author.id))
+        await ctx.send("Hai lavorato")
+        async with await con.execute("SELECT * from economy") as cursor:
+            print("starting...")
+            async for row in cursor:
+
+                print(row)
+                print(type(ctx.author.id))
+                print("lel")
+                print(type(row[0]))
+                sus = row[0] == ctx.author.id
+                print(sus)
+                if sus:
+                    bal = int(row[1])
+                    print(row[0])
+                    print(bal)
+        
+        await con.commit()
+        await con.close()
+
 
 
 def setup(bot):
