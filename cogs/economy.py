@@ -102,6 +102,42 @@ class Economy(commands.Cog):
         
         await con.commit()
         await con.close()
+    @commands.command()
+    async def give(self, ctx, user: discord.User, amount: int):
+        if amount < 0:
+            return await ctx.send("Inserisci un numero maggiore di 0")
+        if user == ctx.author:
+            return await ctx.send("Non puoi donare a te stesso")
+        if not await has_profile(user):
+            return await ctx.send(f"{user.mention} non ha un profilo")
+        if not await has_profile(ctx.author):
+            return await ctx.send("Non hai un profilo")
+
+        con = await aiosqlite.connect("./data/economy.db")
+        async with await con.execute("SELECT * from economy") as cursor:
+
+
+            async for row in cursor:
+
+                sus = row[0] == user.id
+                if sus:
+                    bal = int(row[1])
+
+        async with await con.execute("SELECT * from economy") as cursor:
+
+
+            async for row in cursor:
+
+                sus = row[0] == ctx.author.id
+                if sus:
+                    ubal = int(row[1])
+        if bal > ubal:
+            return await ctx.send("Non hai abbastanza soldi")
+        await con.execute("UPDATE economy SET balance = ? where user = ?", (bal + amount, user.id))
+        await con.execute("UPDATE economy SET balance = ? where user = ?", (ubal - amount, ctx.author.id))
+        await ctx.send(f"Hai donato {amount} coins a {user.mention}")
+        await con.commit()
+        await con.close()
 
 
 
