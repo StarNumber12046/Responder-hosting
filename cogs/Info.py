@@ -18,7 +18,10 @@ class Info(commands.Cog):
     @commands.command()
     async def infos(self, ctx):
         integrer = "1911946966"
-        m = await ctx.send("Menu", buttons=[Button(style=ButtonStyle.URL, label="Invito", url=f"https://discord.com/api/oauth2/authorize?client_id={self.bot.user.id}&permissions={integrer}&scope=bot"), Button(style=ButtonStyle.blue, label="Bot")])
+        m = await ctx.send("Menu", buttons=[Button(style=ButtonStyle.URL, label="Invito", url=f"https://discord.com/api/oauth2/authorize?client_id={self.bot.user.id}&permissions={integrer}&scope=bot"),
+                                            Button(style=ButtonStyle.green, label="Bot"),
+                                            Button(style=ButtonStyle.URL, label="Sito ufficiale", url="https://responder.starnumber.tk"),
+                                            Button(style=ButtonStyle.URL, label="Vota", url="https://top.gg/bot/725342148488069160/vote")])
         res = await self.ddb.wait_for_button_click(m)
         await res.respond(
             type=InteractionType.ChannelMessageWithSource,
