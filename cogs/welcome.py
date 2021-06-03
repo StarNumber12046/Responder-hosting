@@ -50,7 +50,7 @@ class Welcome(commands.Cog):
             async for row in cursor:
                 if channel is None:
                     if int(row[0]) == ctx.guild.id:
-                        await ctx.send(f"{self.bot.get_channel(int(row[1])).mention} ({row[2]})\n\n**Variabili**\n[usermention] : menziona l'utente\n[membername] : Nome dell'utente\\n[memberdiscrim] : discriminatore (#0000) dell'utente")
+                        await ctx.send(f"{self.bot.get_channel(int(row[1])).mention} ({row[2]})\n\n**Variabili**\n<usermention> : menziona l'utente\n<membername> : Nome dell'utente\\n<memberdiscrim> : discriminatore (#0000) dell'utente")
                         break
         found = False
         if channel is not None:
