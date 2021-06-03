@@ -37,7 +37,7 @@ class Welcome(commands.Cog):
                     break
             if found is True:
                 c = self.bot.get_channel(int(row[1]))
-                await c.send(row[2].replace(f"[usermention]", f"{member.mention}").replace("[membername]", f"{member.display_name}", "[memberdiscrim]", f"{member.discriminator}"))
+                await c.send(row[2].replace(f"<usermention>", f"{member.mention}").replace("<membername>", f"{member.display_name}", "<memberdiscrim>", f"{member.discriminator}"))
         await con.close()
     @commands.group(invoke_without_command=True)
     async def join(self, ctx):
@@ -50,7 +50,7 @@ class Welcome(commands.Cog):
             async for row in cursor:
                 if channel is None:
                     if int(row[0]) == ctx.guild.id:
-                        await ctx.send(f"{self.bot.get_channel(int(row[1])).mention} ({row[2]})\n\n**Variabili**\n<usermention> : menziona l'utente\n<membername> : Nome dell'utente\\n<memberdiscrim> : discriminatore (#0000) dell'utente")
+                        await ctx.send(f"{self.bot.get_channel(int(row[1])).mention} ({row[2]})\n\n**Variabili**\n<usermention> : menziona l'utente\n<membername> : Nome dell'utente\n<memberdiscrim> : discriminatore (#0000) dell'utente")
                         break
         found = False
         if channel is not None:
@@ -60,8 +60,8 @@ class Welcome(commands.Cog):
                         found = True
 
         if found:
-            await con.execute(f"Update welcome set channel = {channel.id} WHERE guild = {ctx.guild.id}")
-            await con.execute(f"Update welcome set message = {message} WHERE guild = {ctx.guild.id}")
+            await con.execute(f"Update welcome set channel = ? WHERE guild = ?", (channel.id, ctx.guild.id))
+            await con.execute(f"Update welcome set message = ? WHERE guild = ?", (message, ctx.guild.id))
             await con.commit()
         else:
             await con.execute("INSERT into welcome (guild, channel, message) VALUES (?, ?, ?)", (ctx.guild.id, channel.id, message))
