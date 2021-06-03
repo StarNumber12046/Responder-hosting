@@ -19,7 +19,7 @@ class Welcome(commands.Cog):
                     print(g)
                     print(member.guild.id)
                     found = True
-                    print("ciao")
+
                     break
             if found is True:
                 c = self.bot.get_channel(int(row[1]))
@@ -63,6 +63,7 @@ class Welcome(commands.Cog):
             await con.execute(f"Update welcome set channel = ? WHERE guild = ?", (channel.id, ctx.guild.id))
             await con.execute(f"Update welcome set message = ? WHERE guild = ?", (message, ctx.guild.id))
             await con.commit()
+            await ctx.send("Messaggio aggiornato")
         else:
             await con.execute("INSERT into welcome (guild, channel, message) VALUES (?, ?, ?)", (ctx.guild.id, channel.id, message))
             await con.commit()
