@@ -2,7 +2,7 @@ import discord, json
 from discord.ext import commands
 import aiosqlite
 import asyncio
-from discord_buttons import DiscordButton, Button, ButtonStyle, InteractionType
+from discord_components import DiscordComponents, Button, ButtonStyle, InteractionType
 
 #async
 def is_blacklisted(ctx):
@@ -22,7 +22,7 @@ def is_blacklisted(ctx):
 class Help(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.ddb = DiscordButton(self.bot)
+        DiscordComponents(bot)
 
 
 
@@ -80,7 +80,9 @@ class Help(commands.Cog):
     @commands.command()
     async def ihelp(self, ctx):
         m = await ctx.send("Help menu", buttons=[Button(style=ButtonStyle.blue, label="Moderazione"), Button(style=ButtonStyle.blue, label="Misc"), Button(style=ButtonStyle.blue, label="Info")])
-        res = await self.ddb.wait_for_button_click(m)
+        res = await self.bot.wait_for("button_click")
+        if not res.channel == ctx.channel:
+            return False
 
         if res.button.label == "Moderazione":
             embed = discord.Embed(title='Moderazione', description='<> = non obbligatorio | [] = obbligatorio',

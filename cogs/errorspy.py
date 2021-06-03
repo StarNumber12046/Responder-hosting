@@ -97,7 +97,8 @@ class errori(commands.Cog):
         elif isinstance(error, commands.CommandOnCooldown):
             await ctx.send("Attendi qualche secondo prima di usare questo comando")
         else:
-            await ctx.send("Si è verificato un errore sconosciuto. Verifica di aver inserito correttamente i dati e riprova. Se il problema persiste entra nel server di supporto")
+            await ctx.send(embed = discord.Embed(title="Errore sconosciuto", description=error, color=discord.Color.red()))
+        await self.bot.get_channel(849966916541874227).send(embed = discord.Embed(title="Errore sconosciuto", description=error, color=discord.Color.red()))    
         raise error
 
 

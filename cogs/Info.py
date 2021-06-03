@@ -1,11 +1,11 @@
 import discord
 from discord.ext import commands
-from discord_buttons import DiscordButton, Button, ButtonStyle, InteractionType
+from discord_components import DiscordComponents, Button, ButtonStyle, InteractionType
 
 class Info(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.ddb = DiscordButton(self.bot)
+        DiscordComponents(bot)
 
     @commands.command()
     async def invite(self, ctx, integrer = "1911946966"):
@@ -22,8 +22,9 @@ class Info(commands.Cog):
                                             Button(style=ButtonStyle.green, label="Bot"),
                                             Button(style=ButtonStyle.URL, label="Sito ufficiale", url="https://responder.starnumber.tk"),
                                             Button(style=ButtonStyle.URL, label="Vota", url="https://top.gg/bot/725342148488069160/vote")])
-        res = await self.ddb.wait_for_button_click(m)
-
+        res = await self.bot.wait_for("button_click")
+        if not res.channel == ctx.channel:
+            return False 
         await res.respond(
 
             type=InteractionType.ChannelMessageWithSource,
