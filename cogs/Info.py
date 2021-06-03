@@ -23,7 +23,9 @@ class Info(commands.Cog):
                                             Button(style=ButtonStyle.URL, label="Sito ufficiale", url="https://responder.starnumber.tk"),
                                             Button(style=ButtonStyle.URL, label="Vota", url="https://top.gg/bot/725342148488069160/vote")])
         res = await self.ddb.wait_for_button_click(m)
+
         await res.respond(
+
             type=InteractionType.ChannelMessageWithSource,
             content=f'Questo bot è stato creato da StarNumber12046. E\'un piccolo bot italiano. Ecco alcune informazioni\nPing: {self.bot.latency * 1000}\nServers: {len(self.bot.guilds)}\nUtenti: {len(self.bot.users)}'
         )

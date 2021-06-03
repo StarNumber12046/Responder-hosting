@@ -45,9 +45,12 @@ class Utility(commands.Cog):
       "Reset the default prefix"
 
       with open("data/prefixes.json", "r") as f:
-
-        l = json.load(f)
-
+        d = f
+        l = json.load(d)
+        f.close()
+      with open("data/settings.json", "r") as f:
+          settings = json.load(f)
+          f.close()
       try:
         
         l.pop(str(ctx.guild.id))
@@ -56,11 +59,11 @@ class Utility(commands.Cog):
 
           json.dump(l, f)
 
-        await ctx.send(f"Prefisso resettato a `r-`.")
+        await ctx.send(f"Prefisso resettato a `{settings['default-prefix']}`.")
 
       except KeyError:
 
-        await ctx.send("Il prefisso è quello di default (`r-`).")
+        await ctx.send(f"Il prefisso è quello di default (`{settings['default-prefix']}`).")
     @commands.command()
     async def poll(self, ctx, *, args):
         options = list(args.split(" | "))

@@ -1,7 +1,8 @@
-import discord
+import discord, json
 from discord.ext import commands
 import aiosqlite
 import asyncio
+from discord_buttons import DiscordButton, Button, ButtonStyle, InteractionType
 
 #async
 def is_blacklisted(ctx):
@@ -21,6 +22,7 @@ def is_blacklisted(ctx):
 class Help(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.ddb = DiscordButton(self.bot)
 
 
 
@@ -74,6 +76,69 @@ class Help(commands.Cog):
         embed.add_field(name='comment', value=f'{ctx.prefix}comment [commento youtube] -- <id utente>')
         embed.add_field(name="meme", value=f"{ctx.prefix}meme", inline=False)
         await ctx.send(embed=embed)
+
+    @commands.command()
+    async def ihelp(self, ctx):
+        m = await ctx.send("Help menu", buttons=[Button(style=ButtonStyle.blue, label="Moderazione"), Button(style=ButtonStyle.blue, label="Misc"), Button(style=ButtonStyle.blue, label="Info")])
+        res = await self.ddb.wait_for_button_click(m)
+
+        if res.button.label == "Moderazione":
+            embed = discord.Embed(title='Moderazione', description='<> = non obbligatorio | [] = obbligatorio',
+                                  color=discord.Color.blurple())
+            embed.add_field(name='ban',
+                            value=f'{ctx.prefix}ban [user] <reason> (Autorizzazione richiesta: bannare membri)',
+                            inline=False)
+            embed.add_field(name='kick',
+                            value=f'{ctx.prefix}kick [user] <reason> (Autorizzazione richiesta: espellere membri)',
+                            inline=False)
+            embed.add_field(name='unban', value=f'{ctx.prefix}unban [user] (Autorizzazione richiesta: bannare membri)',
+                            inline=False)
+            embed.add_field(name="warn",
+                            value=f"{ctx.prefix}warn [user] reason (autorizzazione richiesta: gestire messaggi)\navvisa un utente")
+            embed.add_field(name="warns", value=f"{ctx.prefix}warns <user>\nvisualizza avvisi di un utente")
+            embed.add_field(name="removewarn",
+                            value=f"{ctx.prefix}removewarn [id] (autorizzazione richiesta: gestire messaggi)\nrimuove un avviso ad un utente")
+            await m.edit(embed=embed)
+            await res.respond(
+
+                type=InteractionType.ChannelMessageWithSource,
+                content=f'Menu inviato!'
+            )
+        elif res.button.label == "Misc":
+            embed = discord.Embed(title='Misc', description='[] = obbligatorio | <> = non obbligatorio',
+                                  color=discord.Color.blurple())
+            embed.add_field(name='userinfo',
+                            value=f'{ctx.prefix}userinfo  <utente> (Se non si inserisce un utente il bot restituirà le info dell\'autore del comando)',
+                            inline=False)
+            embed.add_field(name='serverinfo',
+                            value=f'{ctx.prefix}serverinfo',
+                            inline=False)
+            embed.add_field(name='say', value=f'{ctx.prefix}say [messaggio]', inline=False)
+            embed.add_field(name='comment', value=f'{ctx.prefix}comment [commento youtube] -- <id utente>')
+            embed.add_field(name="meme", value=f"{ctx.prefix}meme", inline=False)
+            await m.edit(embed=embed)
+            await res.respond(
+
+                type=InteractionType.ChannelMessageWithSource,
+                content=f'Menu inviato'
+            )
+        elif res.button.label == "Info":
+            embed = discord.Embed(title='Info sul bot', description='[] = obbligatorio, <> = non obbligatorio',
+                                  color=discord.Color.blurple())
+            embed.add_field(name='Invite',
+                            value=f'{ctx.prefix}invite <permissions integrer> (se non si scrive nulla il bot userà i permessi consigliati)',
+                            inline=False)
+            embed.add_field(name='Infos',
+                            value=f'{ctx.prefix}infos',
+                            inline=False)
+            embed.add_field(name='Support', value=f'{ctx.prefix}support', inline=False)
+            await m.edit(embed=embed)
+            await res.respond(
+
+                type=InteractionType.ChannelMessageWithSource,
+                content=f'Menu inviato'
+            )
+
 
 
 def setup(bot):
