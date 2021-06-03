@@ -23,7 +23,7 @@ class Welcome(commands.Cog):
                     break
             if found is True:
                 c = self.bot.get_channel(int(row[1]))
-                await c.send(row[2].replace(f"[usermention]", f"{member.mention}").replace("[membername]", f"{member.display_name}").replace("[memberdiscrim]", f"{member.discriminator}"))
+                await c.send(row[2].replace(f"<usermention>", f"{member.mention}").replace("<membername>", f"{member.display_name}").replace("<memberdiscrim>", f"{member.discriminator}"))
 
     @commands.Cog.listener()
     async def on_member_leave(self, member):
