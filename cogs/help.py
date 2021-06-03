@@ -102,7 +102,7 @@ class Help(commands.Cog):
         if not res.channel == ctx.channel:
             return False
 
-        if res.button.label == "Moderazione":
+        if res.component.label == "Moderazione":
             embed = discord.Embed(title='Moderazione', description='<> = non obbligatorio | [] = obbligatorio',
                                   color=discord.Color.blurple())
             embed.add_field(name='ban',
@@ -124,7 +124,7 @@ class Help(commands.Cog):
                 type=InteractionType.ChannelMessageWithSource,
                 content=f'Menu inviato!'
             )
-        elif res.button.label == "Misc":
+        elif res.component.label == "Misc":
             embed = discord.Embed(title='Misc', description='[] = obbligatorio | <> = non obbligatorio',
                                   color=discord.Color.blurple())
             embed.add_field(name='userinfo',
@@ -142,7 +142,7 @@ class Help(commands.Cog):
                 type=InteractionType.ChannelMessageWithSource,
                 content=f'Menu inviato'
             )
-        elif res.button.label == "Info":
+        elif res.component.label == "Info":
             embed = discord.Embed(title='Info sul bot', description='[] = obbligatorio, <> = non obbligatorio',
                                   color=discord.Color.blurple())
             embed.add_field(name='Invite',
