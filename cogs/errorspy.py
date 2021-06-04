@@ -96,8 +96,6 @@ class errori(commands.Cog):
             await ctx.send("Una parte del comando **manca**")
         elif isinstance(error, commands.CommandOnCooldown):
             await ctx.send("Attendi qualche secondo prima di usare questo comando")
-        elif isinstance(error, KeyError) or isinstance(error, TypeError):
-            pass
         else:
             await ctx.send(
                 embed=discord.Embed(title="Errore sconosciuto", description=error, color=discord.Color.red()))
