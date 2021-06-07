@@ -88,6 +88,16 @@ class images(commands.Cog):
 
         await ctx.send(f"https://vacefron.nl/api/rankcard?username={str(ctx.author.display_name).replace(' ', '%20')}&avatar={str(ctx.author.avatar_url)[:-10].replace('webp', 'png')}&currentxp={xp}&nextlevelxp={next_xp}&previouslevelxp={back_xp}&level={liv}&xpcolor={color[1:]}&isboosting=true&circleavatar=true")
 
+    @commands.command()
+    async def rip(self, ctx, user:discord.User = None):
+        user = user or ctx.author
+        if str(user.avatar_url_as(static_format="png")).endswith("1024"):
+
+            image = str(user.avatar_url_as(static_format="png"))[:-10]
+        else:
+            image = str(user.avatar_url_as(static_format="png"))
+        await ctx.send("https://vacefron.nl/api/grave?user="+image)
+
 
 def setup(bot):
     bot.add_cog(images(bot))
