@@ -31,6 +31,8 @@ class TopGG(commands.Cog):
             logger.info('Posted server count ({})'.format(self.dblpy.guild_count()))
         except Exception as e:
             logger.exception('Failed to post server count\n{}: {}'.format(type(e).__name__, e))
+    
+    update_stats.start()
 
     async def has_voted(self, id, user):
         async with aiohttp.ClientSession() as cs:
