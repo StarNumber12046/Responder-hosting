@@ -15,7 +15,7 @@ In caso di bug è possibile reportarli nel server di supporto (accessibile con i
 
 ## Selfhosting
 ### Requisiti
-- Python (3.6+)
+- Python (3.8+)
 - Pip3
 
 ### Hosting
