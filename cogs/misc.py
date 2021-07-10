@@ -41,17 +41,17 @@ class Misc(commands.Cog):
 
         if profile.hypesquad_brilliance:
             badges += "<:hypesquadbrillance:823532641855733791> "
-        if user.nick is None:
+        try:
             embed = discord.Embed(title=f'{user} info', description=f"""
 {badges}
 😀: {str(user)}
 🆔: {user.id}
 📱: {user.is_on_mobile()}""", color=user.color)
             embed.set_thumbnail(url=user.avatar_url)
-        else:
+        except:
             embed = discord.Embed(title=f'{user} info', description=f"""
 {badges}
-😀: {user.nick}
+😀: str({user})
 🆔: {user.id}
 📱: {user.is_on_mobile()}""", color=user.color)
             embed.set_thumbnail(url=user.avatar_url)

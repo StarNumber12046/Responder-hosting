@@ -50,7 +50,7 @@ class Welcome(commands.Cog):
         await ctx.send(f"{ctx.prefix}join set #canale messaggio")
 
     @join.command()
-    async def set(self, ctx, channel:discord.TextChannel=None, *, message = None):
+    async def set(self, ctx, channel:discord.TextChannel, *, message = None):
         con = await aiosqlite.connect("./data/misc.db")
         async with con.execute("SELECT * from welcome") as cursor:
             async for row in cursor:
