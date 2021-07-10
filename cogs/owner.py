@@ -131,17 +131,17 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
             '_': None,
         }
 
+        def check(m):
+            return m.author.id == ctx.author.id and \
+                   m.channel.id == ctx.channel.id and \
+                   m.content.startswith('`')
+
         if ctx.channel.id in self.sessions:
             await ctx.send('Already running a REPL session in this channel. Exit it with `quit`.')
             return
 
         self.sessions.add(ctx.channel.id)
         await ctx.send('Enter code to execute or evaluate. `exit()` or `quit` to exit.')
-
-        def check(m):
-            return m.author.id == ctx.author.id and \
-                   m.channel.id == ctx.channel.id and \
-                   m.content.startswith('`')
 
         while True:
             try:
@@ -206,6 +206,7 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
                 pass
             except discord.HTTPException as e:
                 await ctx.send(f'Unexpected error: `{e}`')
+
 
     @commands.command()
     @commands.is_owner()

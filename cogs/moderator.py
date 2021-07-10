@@ -69,8 +69,6 @@ class Moderator(commands.Cog):
 
         except discord.InvalidArgument:
             await ctx.send("Argomento non valido")
-        except:
-            await ctx.send("SI è verificato un errore sconosciuto")
 
 
 

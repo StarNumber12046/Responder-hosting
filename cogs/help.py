@@ -158,6 +158,18 @@ class Help(commands.Cog):
                 type=InteractionType.ChannelMessageWithSource,
                 content=f'Menu inviato'
             )
+    @commands.command()
+    async def testpoll(self, ctx, *, poll):
+        await ctx.send(embed=discord.Embed(title="Sondaggio", description=poll), components=[Button(style=ButtonStyle.grey, label="", emoji="👍"), Button(style=ButtonStyle.grey, label="", emoji="👎")])
+    @commands.Cog.listener()
+    async def on_button_click(self, res):
+        print(dir(res))
+        if not res.component.emoji and res.component.label:
+            return
+        await res.channel.send(f"E' stato votato {res.component.emoji}")
+        await res.respond(
+            type=InteractionType.ChannelMessageWithSource, content=f"Hai votato {res.component.emoji}"
+        )
 
 
 def setup(bot):

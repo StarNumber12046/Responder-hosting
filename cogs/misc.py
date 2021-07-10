@@ -70,6 +70,16 @@ Numero canali: {len(ctx.guild.text_channels) + len(ctx.guild.voice_channels)}"""
     async def triggered(self, ctx):
         pass
 
+    @commands.command()
+    async def test(self, ctx):
+        def check(m):
+            return m.author.id == ctx.author.id and \
+                   m.channel.id == ctx.channel.id
+
+        response = await self.bot.wait_for('message', check=check, timeout=10.0 * 60.0)
+        await ctx.send(response.content)
+        await ctx.send(dir(response))
+
 
 
 
