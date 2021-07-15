@@ -1,4 +1,4 @@
-import discord, io, functools, random, requests
+import discord, io, functools, random, requests, os
 from discord.ext import commands  
 from PIL import Image, ImageFont, ImageDraw  
 from urllib.request import urlopen
@@ -54,8 +54,31 @@ class AmongUs(commands.Cog):
             base.paste(img, (2145, 650), img)
 
         else:
-            base.paste(img, (360, 170), img)
+            base.paste(img, (2145, 650), img)
         
+        b = io.BytesIO()
+        base.save(b, "png")
+        b.seek(0)
+        return b
+
+
+
+    def face_sync(self, image):
+
+        imgbytes = "assets/sus/" + random.choice(os.listdir("assets/sus"))
+        base = Image.open(imgbytes).convert("RGBA")
+
+        font = ImageFont.truetype("assets/amongus.ttf", 35)
+
+        img = Image.open(io.BytesIO(image)).resize((250, 250)).convert("RGBA")
+        mask = Image.open(
+            "assets/circle-mask.jpg").resize((25, 25)).convert("L")
+
+        transparency = self.has_transparency(img)
+
+
+        base.paste(img, (200, 200), img)
+
         b = io.BytesIO()
         base.save(b, "png")
         b.seek(0)
@@ -64,6 +87,12 @@ class AmongUs(commands.Cog):
     async def ejector(self, username, image):
     
         function = functools.partial(self.eject_sync, username, image)
+        img = await self.bot.loop.run_in_executor(None, function)
+        return img
+
+    async def facer(self, image):
+
+        function = functools.partial(self.face_sync, image)
         img = await self.bot.loop.run_in_executor(None, function)
         return img
     
@@ -78,6 +107,15 @@ class AmongUs(commands.Cog):
             bytes = await self.ejector(str(ctx.author)[:-5], bytes)
             file = discord.File(fp = bytes, filename = "eject.png")
         await ctx.send(file=file)
-        
+    @commands.command()
+    async def susface(self, ctx, user=discord.User):
+
+        member = user or ctx.author
+        bytes = await ctx.author.avatar_url_as(format="png").read()
+
+        bytes = await self.facer(bytes)
+        file = discord.File(fp=bytes, filename="face.png")
+        await ctx.send(file=file)
+
 def setup(bot):
     bot.add_cog(AmongUs(bot))

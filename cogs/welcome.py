@@ -1,5 +1,5 @@
 import discord, aiosqlite
-
+from discord_components import DiscordComponents, Button, ButtonStyle, InteractionType
 from discord.ext import commands
 
 class Welcome(commands.Cog):
@@ -47,7 +47,7 @@ class Welcome(commands.Cog):
         await con.close()
     @commands.group(invoke_without_command=True)
     async def join(self, ctx):
-        await ctx.send(f"{ctx.prefix}join set #canale messaggio")
+        await ctx.send("Scegli cosa vuoi fare", components=[Button(style=ButtonStyle.green, label="Inserisci / modifica canale"), Button(style=ButtonStyle.green, label="Inserisci / modifica messaggio"), Button(style=ButtonStyle.red, label="ANNULLA")])
 
     @join.command()
     async def set(self, ctx, channel:discord.TextChannel, *, message = None):
@@ -65,16 +65,7 @@ class Welcome(commands.Cog):
                     if int(row[0]) == ctx.guild.id:
                         found = True
 
-        if found:
-            await con.execute(f"Update welcome set channel = ? WHERE guild = ?", (channel.id, ctx.guild.id))
-            await con.execute(f"Update welcome set message = ? WHERE guild = ?", (message, ctx.guild.id))
-            await con.commit()
-            await ctx.send("Messaggio aggiornato")
-        else:
-            await con.execute("INSERT into welcome (guild, channel, message) VALUES (?, ?, ?)", (ctx.guild.id, channel.id, message))
-            await con.commit()
-            await ctx.send("Fatto!")
-        await con.close()
+
 
     @commands.group(invoke_without_command=True)
     async def leave(self, ctx):
