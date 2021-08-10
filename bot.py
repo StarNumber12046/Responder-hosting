@@ -54,7 +54,9 @@ for a in os.listdir("./cogs"):
         if a == 'notload.py':
             pass
         else:
+            if a in ["spotify.py"]:
+                pass
             bot.load_extension(f"cogs.{a[:-3]}")
 envfiles.load_dotenv(dotenv_path='.env')
-server.keep_alive()
+#server.keep_alive()
 bot.run(os.environ.get('token'))
