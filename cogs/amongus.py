@@ -97,7 +97,7 @@ class AmongUs(commands.Cog):
         return img
     
     @commands.command()
-    async def eject(self, ctx, user=discord.User):
+    async def eject(self, ctx, user:discord.User):
         async with ctx.typing():
             
             member = user or ctx.author
@@ -108,7 +108,7 @@ class AmongUs(commands.Cog):
             file = discord.File(fp = bytes, filename = "eject.png")
         await ctx.send(file=file)
     @commands.command()
-    async def susface(self, ctx, user=discord.User):
+    async def susface(self, ctx, user:discord.User):
 
         member = user or ctx.author
         bytes = await ctx.author.avatar_url_as(format="png").read()
