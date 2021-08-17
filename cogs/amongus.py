@@ -104,7 +104,7 @@ class AmongUs(commands.Cog):
             bytes = await member.avatar_url_as(format="png").read()
 
             
-            bytes = await self.ejector(str(ctx.author)[:-5], bytes)
+            bytes = await self.ejector(str(member)[:-5], bytes)
             file = discord.File(fp = bytes, filename = "eject.png")
         await ctx.send(file=file)
     @commands.command()
