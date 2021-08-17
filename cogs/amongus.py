@@ -101,7 +101,7 @@ class AmongUs(commands.Cog):
         async with ctx.typing():
             
             member = user or ctx.author
-            bytes = await ctx.author.avatar_url_as(format="png").read()
+            bytes = await member.avatar_url_as(format="png").read()
 
             
             bytes = await self.ejector(str(ctx.author)[:-5], bytes)
@@ -111,7 +111,7 @@ class AmongUs(commands.Cog):
     async def susface(self, ctx, user:discord.User):
 
         member = user or ctx.author
-        bytes = await ctx.author.avatar_url_as(format="png").read()
+        bytes = await member.avatar_url_as(format="png").read()
 
         bytes = await self.facer(bytes)
         file = discord.File(fp=bytes, filename="face.png")
