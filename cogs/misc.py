@@ -47,14 +47,14 @@ class Misc(commands.Cog):
 😀: {str(user)}
 🆔: {user.id}
 📱: {user.is_on_mobile()}""", color=user.color)
-            embed.set_thumbnail(url=user.avatar_url)
+            embed.set_thumbnail(url=user.avatar.url)
         except:
             embed = discord.Embed(title=f'{user} info', description=f"""
 {badges}
 😀: str({user})
 🆔: {user.id}
 📱: {user.is_on_mobile()}""", color=user.color)
-            embed.set_thumbnail(url=user.avatar_url)
+            embed.set_thumbnail(url=user.avatar.url)
         await ctx.send(embed=embed)
     @commands.command()
     async def serverinfo(self, ctx):

@@ -2,8 +2,8 @@ import discord, aiosqlite
 from discord.ext import commands
 from discord.ext.commands import MissingPermissions
 import datetime
-from discord_slash import cog_ext, SlashContext
-from discord_slash.utils.manage_commands import create_option
+#from discord_slash import cog_ext, SlashContext
+#from discord_slash.utils.manage_commands import create_option
 class Moderator(commands.Cog):
     def __init__(self, bot):
         self.bot = bot

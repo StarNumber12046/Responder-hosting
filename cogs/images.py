@@ -26,7 +26,7 @@ class images(commands.Cog):
         if int(len(user.display_name)) > 25:
             await ctx.send(f'Non posso completare la richiesta: il nickname è troppo lungo di {int(len(user.display_name) - 25)} caratteri')
         else:
-            await ctx.send(f'https://some-random-api.ml/canvas/youtube-comment?avatar={str(user.avatar_url).replace("webp", "png")}&username={user.display_name.replace(finded, replaced)}&comment={comment.replace(finded, replaced2)}')
+            await ctx.send(f'https://some-random-api.ml/canvas/youtube-comment?avatar={str(user.avatar.url).replace("webp", "png")}&username={user.display_name.replace(finded, replaced)}&comment={comment.replace(finded, replaced2)}')
 
     @commands.command()
     async def meme(self, ctx):
@@ -86,7 +86,7 @@ class images(commands.Cog):
         color = str(ctx.author.color).replace('0x', 'x')
 
 
-        await ctx.send(f"https://vacefron.nl/api/rankcard?username={str(ctx.author.display_name).replace(' ', '%20')}&avatar={str(ctx.author.avatar_url)[:-10].replace('webp', 'png')}&currentxp={xp}&nextlevelxp={next_xp}&previouslevelxp={back_xp}&level={liv}&xpcolor={color[1:]}&isboosting=true&circleavatar=true")
+        await ctx.send(f"https://vacefron.nl/api/rankcard?username={str(ctx.author.display_name).replace(' ', '%20')}&avatar={str(ctx.author.avatar.url)[:-10].replace('webp', 'png')}&currentxp={xp}&nextlevelxp={next_xp}&previouslevelxp={back_xp}&level={liv}&xpcolor={color[1:]}&isboosting=true&circleavatar=true")
 
     @commands.command()
     async def rip(self, ctx, user:discord.User = None):

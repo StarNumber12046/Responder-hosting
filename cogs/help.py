@@ -1,7 +1,7 @@
 import aiosqlite
 import discord, random
 from discord.ext import commands
-from discord_components import DiscordComponents, Button, ButtonStyle, InteractionType
+#from discord_components import DiscordComponents, Button, ButtonStyle, InteractionType
 
 
 # async
@@ -51,7 +51,7 @@ class HelpCommand:
 
         emb = discord.Embed(title="Help",
                             timestamp=ctx.message.created_at)
-        emb.set_author(name=ctx.author, icon_url=str(ctx.author.avatar_url_as(static_format="png")))
+        emb.set_author(name=ctx.author, icon_url=str(ctx.author.avatar.url))
 
         for cog in self.bot.cogs:
             cog_str = ""
@@ -153,7 +153,7 @@ class HelpCommand:
 class Help(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        DiscordComponents(bot)
+        #DiscordComponents(bot)
         self._original_help_command = bot.help_command
         self.help = HelpCommand(bot)
         bot.help_command = None
@@ -176,7 +176,7 @@ class Help(commands.Cog):
                 await self.help.command_not_found(ctx, command)
 
 
-
+"""
     @commands.command(hidden=True)
     async def ihelp(self, ctx):
         m = await ctx.send("Help menu", components=[Button(style=ButtonStyle.blue, label="Moderazione"),
@@ -244,6 +244,7 @@ class Help(commands.Cog):
                 type=InteractionType.ChannelMessageWithSource,
                 content=f'Menu inviato'
             )
+
     @commands.command(hidden=True)
     async def testpoll(self, ctx, *, poll):
         await ctx.send(embed=discord.Embed(title="Sondaggio", description=poll), components=[Button(style=ButtonStyle.grey, label="", emoji="👍"), Button(style=ButtonStyle.grey, label="", emoji="👎")])
@@ -256,7 +257,7 @@ class Help(commands.Cog):
         await res.respond(
             type=InteractionType.ChannelMessageWithSource, content=f"Hai votato {res.component.emoji}"
         )
-
+"""
 
 def setup(bot):
     bot.add_cog(Help(bot))

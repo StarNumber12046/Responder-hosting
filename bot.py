@@ -1,6 +1,6 @@
 import os
 
-os.system("pip install -r requirements.txt")
+#os.system("pip install -r requirements.txt")
 
 import discord
 from discord.ext import commands
@@ -8,11 +8,11 @@ import jishaku
 import prefix
 import dotenv as envfiles
 import server
-from discord_slash import SlashCommand, SlashContext
-from discord_slash.utils.manage_commands import create_option
+#from discord_slash import SlashCommand, SlashContext
+#from discord_slash.utils.manage_commands import create_option
 
 bot = commands.Bot(command_prefix=prefix.get_prefix, intents=discord.Intents.all())
-slash = SlashCommand(bot, sync_commands=True, override_type=True) # Declares slash commands through the client.
+#slash = SlashCommand(bot, sync_commands=True, override_type=True) # Declares slash commands through the client.
 
 print(discord)
 bot.remove_command('help')
@@ -22,7 +22,7 @@ bot.load_extension('jishaku')
 async def on_ready():
     print('Online come', bot.user)
     await bot.change_presence(activity=discord.Streaming(name='r-help per una lista di comandi | rispondo a tutto e tutti', url='https://twitch.tv/starnumber12046'))
-
+"""
 @slash.slash(name="ping", description="latenza")
 async def _ping(ctx: SlashContext): # Defines a new "context" (ctx) command called "ping."
     try:
@@ -46,7 +46,7 @@ async def say(ctx:SlashContext, testo : str):
         error = discord.Embed(title="SI è verificato un problema!", description=e, color=discord.Color.red())
         print(e)
         await ctx.send(embeds=[error])
-
+"""
 
 
 for a in os.listdir("./cogs"):
