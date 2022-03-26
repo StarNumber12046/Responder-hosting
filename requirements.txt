@@ -133,3 +133,4 @@ Werkzeug==1.0.1
 yarl==1.6.3
 youtube-dl==2021.6.6
 zoomus==1.1.5
+aiosqlite
